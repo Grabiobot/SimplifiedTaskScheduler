@@ -31,10 +31,16 @@ Systray menu:
 Tasks list:
  
 ![alt text](https://github.com/Grabiobot/SimplifiedTaskScheduler/blob/master/screenshots/tasks_list.png "Tasks List")
- 
+
  
 Running task:
  
 ![alt text](https://github.com/Grabiobot/SimplifiedTaskScheduler/blob/master/screenshots/running_task.png "Running Task")
+ 
+ 
+Task notification:
+ 
+![alt text](https://github.com/Grabiobot/SimplifiedTaskScheduler/blob/master/screenshots/notification1.png "Task Notification")
+ 
 
  
