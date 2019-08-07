@@ -9,5 +9,6 @@ namespace SimplifiedTaskScheduler.GUI
     public class UserSettings
     {
         public bool StartWithWindows;
+        public bool ShowProgressNotifications;
     }
 }

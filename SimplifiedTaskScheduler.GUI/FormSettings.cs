@@ -25,11 +25,13 @@ namespace SimplifiedTaskScheduler.GUI
             string product = fvi.ProductName;
             this.Text ="Settings - "+ product + " v." + version;
             chkStartWithWindows.Checked = SettingsManager.CurrentSettings.StartWithWindows;
+            chkShowProgressNotifications.Checked = SettingsManager.CurrentSettings.ShowProgressNotifications;
         }
 
         private void BtnOk_Click(object sender, EventArgs e)
         {
             SettingsManager.CurrentSettings.StartWithWindows = chkStartWithWindows.Checked;
+            SettingsManager.CurrentSettings.ShowProgressNotifications = chkShowProgressNotifications.Checked;
             SettingsManager.ApplyStartWithWindows(SettingsManager.CurrentSettings.StartWithWindows);
         }
     }

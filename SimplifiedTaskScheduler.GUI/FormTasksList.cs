@@ -26,14 +26,14 @@ namespace SimplifiedTaskScheduler.GUI
         }
 
         #region PURE GUI
-        private void SplitContainer1_Panel1_Resize(object sender, EventArgs e)
+        private void SplitTreeList_Panel1_Resize(object sender, EventArgs e)
         {
             tvwFolders.Left = 0;
             tvwFolders.Top = 0;
             tvwFolders.Width = splitTreeList.Panel1.ClientRectangle.Width - tvwFolders.Left * 2;
             tvwFolders.Height = splitTreeList.Panel1.ClientRectangle.Height - tvwFolders.Top * 2;
         }
-        private void SplitContainer1_Panel2_Resize(object sender, EventArgs e)
+        private void SplitTreeList_Panel2_Resize(object sender, EventArgs e)
         {
         }
         private void FormTasksList_Load(object sender, EventArgs e)
@@ -46,8 +46,10 @@ namespace SimplifiedTaskScheduler.GUI
             lstTasks.Columns.Add("Status", 150);
             lstTasks.Columns.Add("Enabled", 150);
 
-            SplitContainer1_Panel1_Resize(this, EventArgs.Empty);
-            SplitContainer1_Panel2_Resize(this, EventArgs.Empty);
+            SplitTreeList_Panel1_Resize(this, EventArgs.Empty);
+            SplitTreeList_Panel2_Resize(this, EventArgs.Empty);
+            SplitListDetail_Panel1_Resize(this, EventArgs.Empty);
+            SplitListDetail_Panel2_Resize(this, EventArgs.Empty);
 
             // Now we may browse for the source file and ask controller to load tasks list from it
             CreateUIFolders();
@@ -57,7 +59,7 @@ namespace SimplifiedTaskScheduler.GUI
             string version = fvi.FileVersion;
             this.Text += " v." + version;
         }
-        private void SplitContainer1_Panel1_Resize_1(object sender, EventArgs e)
+        private void SplitListDetail_Panel1_Resize(object sender, EventArgs e)
         {
             lstTasks.Left = 0;
             lstTasks.Top = 0;
@@ -65,7 +67,7 @@ namespace SimplifiedTaskScheduler.GUI
             lstTasks.Height = splitListDetail.Panel1.ClientRectangle.Height - lstTasks.Top * 2;
 
         }
-        private void SplitContainer1_Panel2_Resize_1(object sender, EventArgs e)
+        private void SplitListDetail_Panel2_Resize(object sender, EventArgs e)
         {
             tabTask.Left = 0;
             tabTask.Top = 0;
@@ -107,6 +109,7 @@ namespace SimplifiedTaskScheduler.GUI
             mnuTasksDelete.Enabled = _taskData != null;
             mnuTasksEdit.Enabled = _taskData != null;
             mnuTasksToggleEnabled.Enabled = _taskData != null;
+            mnuTasksClearLog.Enabled = _taskData != null;
             if (mnuTasksToggleEnabled.Enabled) mnuTasksToggleEnabled.Checked = _taskData.IsEnabled;
             else mnuTasksToggleEnabled.Checked = false;
             mnuTasksRun.Enabled = _taskData != null;
@@ -463,6 +466,14 @@ namespace SimplifiedTaskScheduler.GUI
                 _taskData = null;
             }
             Controller.Instance.SaveData("");
+        }
+
+        private void MnuTasksClearLog_Click(object sender, EventArgs e)
+        {
+            string id = (string)(lstTasks.SelectedItems[0].Tag);
+            TaskData taskData = FindClickedTask(id);
+            taskData.DebugData.Output = string.Empty;
+            UpdateTaskDisplay(id);
         }
     }
 }

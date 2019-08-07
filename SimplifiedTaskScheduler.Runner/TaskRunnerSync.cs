@@ -23,6 +23,7 @@ namespace SimplifiedTaskScheduler.Runner
         public event EventHandler<TaskExitedEventArgs> Exited;
         public event EventHandler<TaskDataReceivedEventArgs> OutputDataReceived;
         public event EventHandler<TaskStatusChangedEventArgs> StatusChanged;
+        public event EventHandler<TaskNotificationEventArgs> TaskNotification;
         public bool IsRunning()
         {
             return _runner.IsRunning();
@@ -35,9 +36,9 @@ namespace SimplifiedTaskScheduler.Runner
         {
             _runner.Run();
         }
-        public void CloseIdle(TimeSpan idleTime)
+        public void CloseIdle()
         {
-            _runner.CloseIdle(idleTime);
+            _runner.CloseIdle();
         }
         #endregion
 
@@ -95,6 +96,7 @@ namespace SimplifiedTaskScheduler.Runner
         private delegate void FireOutputDataReceivedCallback(object sender, TaskDataReceivedEventArgs e);
         private delegate void FireErrorDataReceivedCallback(object sender, TaskDataReceivedEventArgs e);
         private delegate void FireExitedCallback(object sender, TaskExitedEventArgs e);
+        private delegate void FireTaskNotificationCallback(object sender, TaskNotificationEventArgs e);
         public TaskRunnerSyncTaskRunnerSync(TaskData taskData)
         {
             _runner = new TarkRunner (taskData);
@@ -102,7 +104,14 @@ namespace SimplifiedTaskScheduler.Runner
             _runner.Exited += _runner_Exited;
             _runner.OutputDataReceived += _runner_OutputDataReceived;
             _runner.StatusChanged += _runner_StatusChanged;
+            _runner.TaskNotification += _runner_TaskNotification;
         }
+
+        private void _runner_TaskNotification(object sender, TaskNotificationEventArgs e)
+        {
+            FireTaskNotification(sender, e);
+        }
+
         private void _runner_StatusChanged(object sender, TaskStatusChangedEventArgs e)
         {
             FireStatusChanged(sender, e);
@@ -167,7 +176,18 @@ namespace SimplifiedTaskScheduler.Runner
                 Exited?.Invoke(sender, e);
             }
         }
-
+        private void FireTaskNotification(object sender, TaskNotificationEventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                FireTaskNotificationCallback d = new FireTaskNotificationCallback(FireTaskNotification);
+                this?.Invoke(d, new object[] { sender, e });
+            }
+            else
+            {
+                TaskNotification?.Invoke(sender, e);
+            }
+        }
         #endregion
 
     }

@@ -19,6 +19,8 @@ namespace SimplifiedTaskScheduler.GUI
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+            //NotificationManager.Instance.ShowNotification("testing now", "", "A sample task", Base.Events.ENotificationType.TaskKilled);
+
             Controller.Instance.LoadData("");
             Scheduler.TasksScheduler.Instance.ReBuildQueue(Base.Accessor.Instance.Tasks);
 
@@ -27,6 +29,8 @@ namespace SimplifiedTaskScheduler.GUI
             string version = fvi.FileVersion;
             string product = fvi.ProductName;
             notifyIcon1.Text = product+ " v." + version;
+            NotificationManager.Instance.ShowNotification("Application started...", "", 
+                product + " v." + version, Base.Events.ENotificationType.TaskStart);
         }
 
         private void FormMain_Shown(object sender, EventArgs e)
@@ -36,6 +40,8 @@ namespace SimplifiedTaskScheduler.GUI
         private bool _canOpenNewCloseMessage = true;
         private void MnuIconExit_Click(object sender, EventArgs e)
         {
+            //NotificationManager.Instance.ShowNotification("testing now33", "", "A sample task", Base.Events.ENotificationType.TaskIdleKilled);
+
             if (!_canOpenNewCloseMessage) return;
             _canOpenNewCloseMessage = false;
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();

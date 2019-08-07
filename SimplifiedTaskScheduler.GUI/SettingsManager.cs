@@ -12,6 +12,7 @@ namespace SimplifiedTaskScheduler.GUI
         public static void SaveSettings(UserSettings settings)
         {
             Properties.Settings.Default.StartWithWindows = settings.StartWithWindows;
+            Properties.Settings.Default.ShowProgressNotifications = settings.ShowProgressNotifications;
             Properties.Settings.Default.Save();
         }
         public static UserSettings ReadSettings()
@@ -20,6 +21,7 @@ namespace SimplifiedTaskScheduler.GUI
             UserSettings settings = new UserSettings()
             {
                 StartWithWindows = Properties.Settings.Default.StartWithWindows,
+                ShowProgressNotifications = Properties.Settings.Default.ShowProgressNotifications
             };
 
             return settings;

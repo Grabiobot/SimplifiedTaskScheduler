@@ -194,7 +194,14 @@ namespace SimplifiedTaskScheduler.GUI
         private void SetTastRunner(TaskData taskData)
         {
             taskData.DebugData.Runner = new Runner.TaskRunnerSyncTaskRunnerSync(taskData);
+            taskData.DebugData.Runner.TaskNotification += Runner_TaskNotification;
         }
+
+        private void Runner_TaskNotification(object sender, Base.Events.TaskNotificationEventArgs e)
+        {
+            NotificationManager.Instance.ShowNotification(e.Message, e.TaskId, e.TaskName, e.NotificationType);
+        }
+
         public TaskFolder GetFolderById(string id)
         {
             return _foldersById[id];

@@ -86,10 +86,10 @@ namespace SimplifiedTaskScheduler.Scheduler
         public void Cleanup(TaskFolder taskFolder)
         {
             List<TaskData> tasks = AddTasksToCleanupList(taskFolder);
-            TimeSpan timeSpan = new TimeSpan(0, 0, 5);
+            //TimeSpan timeSpan = new TimeSpan(0, 0, 5);
             for (int i = 0; i < tasks.Count; i++)
             {
-                tasks[i].DebugData.Runner.CloseIdle(timeSpan);
+                tasks[i].DebugData.Runner.CloseIdle();
             }
         }
         private List<TaskData> AddTasksToCleanupList(TaskFolder folder)

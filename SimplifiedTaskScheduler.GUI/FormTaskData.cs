@@ -32,6 +32,9 @@ namespace SimplifiedTaskScheduler.GUI
             txtUserName.Text = TaskData.ActioningData.UserName;
             txtPassword.Text = TaskData.ActioningData.Password;
             grpOtherUser.Enabled = TaskData.ActioningData.RunAsOther;
+            nudHours.Value = 1m * TaskData.ActioningData.StopIfIdleHours;
+            nudMinutes.Value = 1m * TaskData.ActioningData.StopIfIdleMinutes;
+            nudSeconds.Value = 1m * TaskData.ActioningData.StopIfIdleSeconds;
 
             dtpStartDate.Value = TaskData.SchedulingData.StartDateTime;
             dtpStartTime.Value = TaskData.SchedulingData.StartDateTime;
@@ -151,6 +154,10 @@ namespace SimplifiedTaskScheduler.GUI
                 TaskData.ActioningData.UserName = null;
                 TaskData.ActioningData.Password = null;
             }
+            TaskData.ActioningData.StopIfIdleHours = (int)nudHours.Value;
+            TaskData.ActioningData.StopIfIdleMinutes= (int)nudMinutes.Value;
+            TaskData.ActioningData.StopIfIdleSeconds = (int)nudSeconds.Value;
+
             TaskData.SchedulingData.StartDateTime = new DateTime(dtpStartDate.Value.Year, dtpStartDate.Value.Month, dtpStartDate.Value.Day,
                 dtpStartTime.Value.Hour, dtpStartTime.Value.Minute, dtpStartTime.Value.Second, 0);
             TaskData.SchedulingData.ExpiryDateTime = new DateTime(dtpExpiryDate.Value.Year, dtpExpiryDate.Value.Month, dtpExpiryDate.Value.Day,
