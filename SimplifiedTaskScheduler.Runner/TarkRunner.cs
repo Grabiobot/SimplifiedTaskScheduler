@@ -11,6 +11,7 @@ namespace SimplifiedTaskScheduler.Runner
     {
         public event EventHandler<TaskDataReceivedEventArgs> ErrorDataReceived;
         public event EventHandler<TaskDataReceivedEventArgs> OutputDataReceived;
+        public event EventHandler<TaskDataReceivedEventArgs> ManagementDataReceived;
         public event EventHandler<TaskExitedEventArgs> Exited;
         public event EventHandler<TaskStatusChangedEventArgs> StatusChanged;
         public event EventHandler<TaskNotificationEventArgs> TaskNotification;
@@ -64,12 +65,16 @@ namespace SimplifiedTaskScheduler.Runner
             process.ErrorDataReceived += Process_ErrorDataReceived;
             process.EnableRaisingEvents = true;
             process.Exited += Process_Exited;
+            _taskData.DebugData.Output = string.Empty;
             _taskData.DebugData.TaskStatus = ETaskStatus.Running;
             _taskStatus = _taskData.DebugData.TaskStatus;
 
-            string notificationMessageTemplate = "Starting task \"{0}\"...";
+            string notificationMessageTemplate = "Starting task \"{0}\"... ";
             string notificationMessage = string.Format(notificationMessageTemplate, _taskData.Name);
             TaskNotification?.Invoke(this, new TaskNotificationEventArgs(notificationMessage, _taskData.Id, _taskData.Name, ENotificationType.TaskStart));
+            string managementMessage = ToManagementMessage(notificationMessage);
+            _taskData.DebugData.Output += managementMessage;
+            ManagementDataReceived?.Invoke(this, new TaskDataReceivedEventArgs(managementMessage, _taskData.Id));
 
             StatusChanged?.Invoke(this, new TaskStatusChangedEventArgs(_taskStatus, _taskData.Id));
             _taskData.DebugData.DateStarted = DateTime.Now;
@@ -82,6 +87,9 @@ namespace SimplifiedTaskScheduler.Runner
                 notificationMessageTemplate = "Error while running \"{0}\": \r\b\t:{1}";
                 notificationMessage = string.Format(notificationMessageTemplate, _taskData.Name, ex.Message);
                 TaskNotification?.Invoke(this, new TaskNotificationEventArgs(notificationMessage, _taskData.Id, _taskData.Name, ENotificationType.TaskCrash));
+                managementMessage = ToManagementMessage(notificationMessage);
+                _taskData.DebugData.Output += managementMessage;
+                ManagementDataReceived?.Invoke(this, new TaskDataReceivedEventArgs(managementMessage, _taskData.Id));
             }
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
@@ -107,6 +115,9 @@ namespace SimplifiedTaskScheduler.Runner
                 string notificationMessageTemplate = "Task \"{0}\" exited with exit code {1}.";
                 string notificationMessage = string.Format(notificationMessageTemplate, _taskData.Name, process.ExitCode);
                 TaskNotification?.Invoke(this, new TaskNotificationEventArgs(notificationMessage, _taskData.Id, _taskData.Name, ENotificationType.TaskExit));
+                string managementMessage = ToManagementMessage(notificationMessage);
+                _taskData.DebugData.Output += managementMessage;
+                ManagementDataReceived?.Invoke(this, new TaskDataReceivedEventArgs(managementMessage, _taskData.Id));
 
             }
         }
@@ -155,6 +166,10 @@ namespace SimplifiedTaskScheduler.Runner
         {
             return Environment.NewLine + message;
         }
+        protected virtual string ToManagementMessage(string message)
+        {
+            return Environment.NewLine + Environment.NewLine + "==>"  + message +" ["+ DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+"] <==" + Environment.NewLine;
+        }
         protected virtual string ToExitMessage(string message)
         {
             return Environment.NewLine + "Process exited with ExitCode: " + message;
@@ -165,6 +180,9 @@ namespace SimplifiedTaskScheduler.Runner
             string notificationMessageTemplate = "Task \"{0}\" killed.";
             string notificationMessage = string.Format(notificationMessageTemplate, _taskData.Name);
             TaskNotification?.Invoke(this, new TaskNotificationEventArgs(notificationMessage, _taskData.Id, _taskData.Name, ENotificationType.TaskKilled));
+            string managementMessage = ToManagementMessage(notificationMessage);
+            _taskData.DebugData.Output += managementMessage;
+            ManagementDataReceived?.Invoke(this, new TaskDataReceivedEventArgs(managementMessage, _taskData.Id));
         }
         private void DoKill()
         {
@@ -240,6 +258,9 @@ namespace SimplifiedTaskScheduler.Runner
                 string notificationMessageTemplate = "Task \"{0}\" stopped after being idle";
                 string notificationMessage = string.Format(notificationMessageTemplate, _taskData.Name);
                 TaskNotification?.Invoke(this, new TaskNotificationEventArgs(notificationMessage, _taskData.Id, _taskData.Name, ENotificationType.TaskIdleKilled));
+                string managementMessage = ToManagementMessage(notificationMessage);
+                _taskData.DebugData.Output += managementMessage;
+                ManagementDataReceived?.Invoke(this, new TaskDataReceivedEventArgs(managementMessage, _taskData.Id));
             }
         }
     }

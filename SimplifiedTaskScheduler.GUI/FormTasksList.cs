@@ -38,6 +38,7 @@ namespace SimplifiedTaskScheduler.GUI
         }
         private void FormTasksList_Load(object sender, EventArgs e)
         {
+            this.SetAppIcon();
             tvwFolders.MouseDown += TvwFolders_MouseDown;
             //Add column header
             lstTasks.Columns.Add("Name", 150);
@@ -45,6 +46,7 @@ namespace SimplifiedTaskScheduler.GUI
             lstTasks.Columns.Add("Command", 150);
             lstTasks.Columns.Add("Status", 150);
             lstTasks.Columns.Add("Enabled", 150);
+            lstTasks.Columns.Add("Last Run Time", 150);
 
             SplitTreeList_Panel1_Resize(this, EventArgs.Empty);
             SplitTreeList_Panel2_Resize(this, EventArgs.Empty);
@@ -194,6 +196,7 @@ namespace SimplifiedTaskScheduler.GUI
                 lstTasks.SelectedItems[0].SubItems[2].Text = _taskData.ActioningData.Command;
                 lstTasks.SelectedItems[0].SubItems[3].Text = _taskData.DebugData.TaskStatus.ToString();
                 lstTasks.SelectedItems[0].SubItems[4].Text = _taskData.IsEnabled.ToString();
+                lstTasks.SelectedItems[0].SubItems[5].Text = GetLastRunText(_taskData);
                 AutoSizeColumnList(lstTasks);
                 ShowDetailsForTask();
             }
@@ -225,6 +228,7 @@ namespace SimplifiedTaskScheduler.GUI
                     x.SubItems.Add(folder.Tasks[i].ActioningData.Command);
                     x.SubItems.Add(folder.Tasks[i].DebugData.TaskStatus.ToString());
                     x.SubItems.Add(folder.Tasks[i].IsEnabled.ToString());
+                    x.SubItems.Add(GetLastRunText(folder.Tasks[i]));
                 }
                 AutoSizeColumnList(lstTasks);
                 _listViewChangedProgramatically = false;
@@ -233,6 +237,10 @@ namespace SimplifiedTaskScheduler.GUI
         }
         private string GetNextOccurenceText(TaskData taskData) {
             return taskData.NextOccurence?.ToShortDateString() + " " + taskData.NextOccurence?.ToShortTimeString();
+        }
+        private string GetLastRunText(TaskData taskData)
+        {
+            return taskData.DebugData.DateStarted?.ToShortDateString() + " " + taskData.DebugData.DateStarted?.ToShortTimeString();
         }
         private void CreateUIFolders()
         {
@@ -262,6 +270,7 @@ namespace SimplifiedTaskScheduler.GUI
         private void RunTaskNow(TaskData taskData)
         {
             taskData.DebugData.Runner.Run();
+            UpdateTaskDisplay(taskData.Id);
             //UpdateDisplayedTaskStatus();
             tabTask.SelectedTab = tbpOutput;
         }
@@ -279,6 +288,8 @@ namespace SimplifiedTaskScheduler.GUI
                 _taskData.DebugData.Runner.ErrorDataReceived -= TaskData_OutputDataReceived;
                 _taskData.DebugData.Runner.Exited -= TaskData_Exited;
                 _taskData.DebugData.Runner.StatusChanged -= Runner_StatusChanged;
+                _taskData.DebugData.Runner.TaskNotification -= Runner_TaskNotification; ;
+                _taskData.DebugData.Runner.ManagementDataReceived -= Runner_ManagementDataReceived;
                 _taskData = null;
                 ShowDetailsForNoTask();
                 return;
@@ -291,6 +302,8 @@ namespace SimplifiedTaskScheduler.GUI
                     _taskData.DebugData.Runner.ErrorDataReceived -= TaskData_OutputDataReceived;
                     _taskData.DebugData.Runner.Exited -= TaskData_Exited;
                     _taskData.DebugData.Runner.StatusChanged -= Runner_StatusChanged;
+                    _taskData.DebugData.Runner.TaskNotification -= Runner_TaskNotification; ;
+                    _taskData.DebugData.Runner.ManagementDataReceived -= Runner_ManagementDataReceived;
                     _taskData = null;
                     ShowDetailsForNoTask();
                 }
@@ -303,6 +316,8 @@ namespace SimplifiedTaskScheduler.GUI
                 _taskData.DebugData.Runner.ErrorDataReceived -= TaskData_OutputDataReceived;
                 _taskData.DebugData.Runner.Exited -= TaskData_Exited;
                 _taskData.DebugData.Runner.StatusChanged -= Runner_StatusChanged;
+                _taskData.DebugData.Runner.TaskNotification -= Runner_TaskNotification; ;
+                _taskData.DebugData.Runner.ManagementDataReceived -= Runner_ManagementDataReceived;
                 _taskData = null;
                 ShowDetailsForNoTask();
             }
@@ -313,7 +328,19 @@ namespace SimplifiedTaskScheduler.GUI
             _taskData.DebugData.Runner.ErrorDataReceived += TaskData_OutputDataReceived;
             _taskData.DebugData.Runner.Exited += TaskData_Exited;
             _taskData.DebugData.Runner.StatusChanged += Runner_StatusChanged;
+            _taskData.DebugData.Runner.TaskNotification += Runner_TaskNotification; ;
+            _taskData.DebugData.Runner.ManagementDataReceived += Runner_ManagementDataReceived;
         }
+
+        private void Runner_ManagementDataReceived(object sender, Base.Events.TaskDataReceivedEventArgs e)
+        {
+            AppendText(e.Data, e.TaskId);
+        }
+
+        private void Runner_TaskNotification(object sender, Base.Events.TaskNotificationEventArgs e)
+        {
+        }
+
         private void Runner_StatusChanged(object sender, Base.Events.TaskStatusChangedEventArgs e)
         {
             UpdateTaskDisplay(e.TaskId);
@@ -350,7 +377,8 @@ namespace SimplifiedTaskScheduler.GUI
             }
             else
             {
-                MessageBox.Show("Selected task is not currently running!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show("Selected task is not currently running! ", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                KillTaskNow(taskData);
             }
         }
         private void MnuTasksToggleEnabled_Click(object sender, EventArgs e)
@@ -448,6 +476,7 @@ namespace SimplifiedTaskScheduler.GUI
                 x.SubItems.Add(folder.Tasks[i].ActioningData.Command);
                 x.SubItems.Add(folder.Tasks[i].DebugData.TaskStatus.ToString());
                 x.SubItems.Add(folder.Tasks[i].IsEnabled.ToString());
+                x.SubItems.Add(GetLastRunText(folder.Tasks[i]));
             }
             AutoSizeColumnList(lstTasks);
             _listViewChangedProgramatically = false;
@@ -463,6 +492,8 @@ namespace SimplifiedTaskScheduler.GUI
                 _taskData.DebugData.Runner.ErrorDataReceived -= TaskData_OutputDataReceived;
                 _taskData.DebugData.Runner.Exited -= TaskData_Exited;
                 _taskData.DebugData.Runner.StatusChanged -= Runner_StatusChanged;
+                _taskData.DebugData.Runner.TaskNotification -= Runner_TaskNotification; ;
+                _taskData.DebugData.Runner.ManagementDataReceived -= Runner_ManagementDataReceived;
                 _taskData = null;
             }
             Controller.Instance.SaveData("");

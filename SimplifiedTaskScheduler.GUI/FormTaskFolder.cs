@@ -20,6 +20,7 @@ namespace SimplifiedTaskScheduler.GUI
 
         private void FormTaskFolder_Load(object sender, EventArgs e)
         {
+            this.SetAppIcon();
             txtFolderName.Text = FolderName;
             txtFolderName.SelectionStart = 0;
             txtFolderName.SelectionLength = FolderName.Length;

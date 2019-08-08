@@ -22,6 +22,7 @@ namespace SimplifiedTaskScheduler.Runner
         public event EventHandler<TaskDataReceivedEventArgs> ErrorDataReceived;
         public event EventHandler<TaskExitedEventArgs> Exited;
         public event EventHandler<TaskDataReceivedEventArgs> OutputDataReceived;
+        public event EventHandler<TaskDataReceivedEventArgs> ManagementDataReceived;
         public event EventHandler<TaskStatusChangedEventArgs> StatusChanged;
         public event EventHandler<TaskNotificationEventArgs> TaskNotification;
         public bool IsRunning()
@@ -94,6 +95,7 @@ namespace SimplifiedTaskScheduler.Runner
         #region Thread synchronization
         private delegate void FireStatusChangedCallback(object sender, TaskStatusChangedEventArgs e);
         private delegate void FireOutputDataReceivedCallback(object sender, TaskDataReceivedEventArgs e);
+        private delegate void FireManagementDataReceivedCallback(object sender, TaskDataReceivedEventArgs e);
         private delegate void FireErrorDataReceivedCallback(object sender, TaskDataReceivedEventArgs e);
         private delegate void FireExitedCallback(object sender, TaskExitedEventArgs e);
         private delegate void FireTaskNotificationCallback(object sender, TaskNotificationEventArgs e);
@@ -103,8 +105,14 @@ namespace SimplifiedTaskScheduler.Runner
             _runner.ErrorDataReceived += _runner_ErrorDataReceived;
             _runner.Exited += _runner_Exited;
             _runner.OutputDataReceived += _runner_OutputDataReceived;
+            _runner.ManagementDataReceived += _runner_ManagementDataReceived;
             _runner.StatusChanged += _runner_StatusChanged;
             _runner.TaskNotification += _runner_TaskNotification;
+        }
+
+        private void _runner_ManagementDataReceived(object sender, TaskDataReceivedEventArgs e)
+        {
+            FireManagementDataReceived(sender, e);
         }
 
         private void _runner_TaskNotification(object sender, TaskNotificationEventArgs e)
@@ -150,6 +158,18 @@ namespace SimplifiedTaskScheduler.Runner
             else
             {
                 OutputDataReceived?.Invoke(sender, e);
+            }
+        }
+        private void FireManagementDataReceived(object sender, TaskDataReceivedEventArgs e)
+        {
+            if (InvokeRequired)
+            {
+                FireManagementDataReceivedCallback d = new FireManagementDataReceivedCallback(FireManagementDataReceived);
+                this?.Invoke(d, new object[] { sender, e });
+            }
+            else
+            {
+                ManagementDataReceived?.Invoke(sender, e);
             }
         }
         private void FireErrorDataReceived(object sender, TaskDataReceivedEventArgs e)

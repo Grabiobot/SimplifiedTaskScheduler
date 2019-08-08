@@ -19,6 +19,7 @@ namespace SimplifiedTaskScheduler.GUI
 
         private void FormSettings_Load(object sender, EventArgs e)
         {
+            this.SetAppIcon();
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             System.Diagnostics.FileVersionInfo fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
             string version = fvi.FileVersion;

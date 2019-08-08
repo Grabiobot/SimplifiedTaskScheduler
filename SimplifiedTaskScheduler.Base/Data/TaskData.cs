@@ -13,7 +13,7 @@ namespace SimplifiedTaskScheduler.Base.Data
         public DateTime? LastRun { get; set; } = null;
         public TaskSchedulingData SchedulingData { get; set; } = new TaskSchedulingData();
         public TaskActioningData ActioningData { get; set; } = new TaskActioningData();
-        [JsonIgnore]
+        //[JsonIgnore]
         public TaskDebugingData DebugData { get; set; } = new TaskDebugingData();
     }
 }

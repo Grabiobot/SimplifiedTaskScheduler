@@ -33,10 +33,10 @@
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.mnuIcon = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuIconManageTasks = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuIconExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.timerTick = new System.Windows.Forms.Timer(this.components);
             this.mnuIconSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuIconSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuIconExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.timerTick = new System.Windows.Forms.Timer(this.components);
             this.mnuIcon.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -57,19 +57,31 @@
             this.mnuIconSeparator1,
             this.mnuIconExit});
             this.mnuIcon.Name = "mnuIcon";
-            this.mnuIcon.Size = new System.Drawing.Size(211, 110);
+            this.mnuIcon.Size = new System.Drawing.Size(147, 76);
             // 
             // mnuIconManageTasks
             // 
             this.mnuIconManageTasks.Name = "mnuIconManageTasks";
-            this.mnuIconManageTasks.Size = new System.Drawing.Size(210, 24);
+            this.mnuIconManageTasks.Size = new System.Drawing.Size(146, 22);
             this.mnuIconManageTasks.Text = "Manage tasks";
             this.mnuIconManageTasks.Click += new System.EventHandler(this.MnuIconManageTasks_Click);
+            // 
+            // mnuIconSettings
+            // 
+            this.mnuIconSettings.Name = "mnuIconSettings";
+            this.mnuIconSettings.Size = new System.Drawing.Size(146, 22);
+            this.mnuIconSettings.Text = "Settings";
+            this.mnuIconSettings.Click += new System.EventHandler(this.MnuIconSettings_Click);
+            // 
+            // mnuIconSeparator1
+            // 
+            this.mnuIconSeparator1.Name = "mnuIconSeparator1";
+            this.mnuIconSeparator1.Size = new System.Drawing.Size(143, 6);
             // 
             // mnuIconExit
             // 
             this.mnuIconExit.Name = "mnuIconExit";
-            this.mnuIconExit.Size = new System.Drawing.Size(210, 24);
+            this.mnuIconExit.Size = new System.Drawing.Size(146, 22);
             this.mnuIconExit.Text = "Exit";
             this.mnuIconExit.Click += new System.EventHandler(this.MnuIconExit_Click);
             // 
@@ -79,24 +91,13 @@
             this.timerTick.Interval = 10000;
             this.timerTick.Tick += new System.EventHandler(this.TimerTick_Tick);
             // 
-            // mnuIconSettings
-            // 
-            this.mnuIconSettings.Name = "mnuIconSettings";
-            this.mnuIconSettings.Size = new System.Drawing.Size(210, 24);
-            this.mnuIconSettings.Text = "Settings";
-            this.mnuIconSettings.Click += new System.EventHandler(this.MnuIconSettings_Click);
-            // 
-            // mnuIconSeparator1
-            // 
-            this.mnuIconSeparator1.Name = "mnuIconSeparator1";
-            this.mnuIconSeparator1.Size = new System.Drawing.Size(207, 6);
-            // 
             // FormMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 300);
+            this.ClientSize = new System.Drawing.Size(225, 244);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormMain";

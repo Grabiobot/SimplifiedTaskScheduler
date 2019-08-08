@@ -20,6 +20,7 @@ namespace SimplifiedTaskScheduler.GUI
 
         private void FormTaskData_Load(object sender, EventArgs e)
         {
+            this.SetAppIcon();
             chkEnabled.Checked = TaskData.IsEnabled;
             txtName.Text = TaskData.Name;
             txtDescription.Text = TaskData.Description;

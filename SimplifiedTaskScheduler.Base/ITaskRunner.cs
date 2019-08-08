@@ -11,6 +11,7 @@ namespace SimplifiedTaskScheduler.Base
         event EventHandler<Events.TaskDataReceivedEventArgs> OutputDataReceived;
         event EventHandler<Events.TaskStatusChangedEventArgs> StatusChanged;
         event EventHandler<Events.TaskNotificationEventArgs> TaskNotification;
+        event EventHandler<Events.TaskDataReceivedEventArgs> ManagementDataReceived;
         bool IsRunning();
         void Kill();
         void Run();

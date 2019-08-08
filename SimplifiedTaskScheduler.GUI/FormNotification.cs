@@ -19,9 +19,11 @@ namespace SimplifiedTaskScheduler.GUI
         {
             InitializeComponent();
         }
-
-        private void FormNotification_Shown(object sender, EventArgs e)
+        public void StopTimer()
         {
+            timer1.Stop();
+        }
+        public void UpdateContent() {
             timer1.Stop();
             timer1.Interval = 5000;
             timer1.Enabled = true;
@@ -47,7 +49,7 @@ namespace SimplifiedTaskScheduler.GUI
                     this.BackColor = Color.LightSteelBlue;
                     break;
                 case Base.Events.ENotificationType.TaskExit:
-                    this.BackColor = Color.MediumSeaGreen; 
+                    this.BackColor = Color.MediumSeaGreen;
                     break;
                 case Base.Events.ENotificationType.TaskCrash:
                     this.BackColor = Color.LightCoral;
@@ -55,6 +57,10 @@ namespace SimplifiedTaskScheduler.GUI
                 default:
                     throw new NotFiniteNumberException();
             }
+        }
+        private void FormNotification_Shown(object sender, EventArgs e)
+        {
+            UpdateContent();
         }
 
         private void Timer1_Tick(object sender, EventArgs e)
