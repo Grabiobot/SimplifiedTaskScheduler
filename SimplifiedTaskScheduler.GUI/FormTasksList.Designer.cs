@@ -42,11 +42,11 @@
             this.mnuTasksStop = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTasksSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuTasksToggleEnabled = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuTasksClearLog = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTasksEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTasksDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTasksSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuTasksAddNew = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuTasksClearLog = new System.Windows.Forms.ToolStripMenuItem();
             this.tabTask = new System.Windows.Forms.TabControl();
             this.tbpDetails = new System.Windows.Forms.TabPage();
             this.txtDetails = new System.Windows.Forms.TextBox();
@@ -181,67 +181,67 @@
             this.mnuTasksSeparator2,
             this.mnuTasksAddNew});
             this.mnuTasks.Name = "mnuTasks";
-            this.mnuTasks.Size = new System.Drawing.Size(181, 192);
+            this.mnuTasks.Size = new System.Drawing.Size(122, 170);
             this.mnuTasks.Opening += new System.ComponentModel.CancelEventHandler(this.MnuTasks_Opening);
             // 
             // mnuTasksRun
             // 
             this.mnuTasksRun.Name = "mnuTasksRun";
-            this.mnuTasksRun.Size = new System.Drawing.Size(180, 22);
+            this.mnuTasksRun.Size = new System.Drawing.Size(121, 22);
             this.mnuTasksRun.Text = "Run";
             this.mnuTasksRun.Click += new System.EventHandler(this.MnuTasksRun_Click);
             // 
             // mnuTasksStop
             // 
             this.mnuTasksStop.Name = "mnuTasksStop";
-            this.mnuTasksStop.Size = new System.Drawing.Size(180, 22);
+            this.mnuTasksStop.Size = new System.Drawing.Size(121, 22);
             this.mnuTasksStop.Text = "Kill";
             this.mnuTasksStop.Click += new System.EventHandler(this.MnuTasksStop_Click);
             // 
             // mnuTasksSeparator1
             // 
             this.mnuTasksSeparator1.Name = "mnuTasksSeparator1";
-            this.mnuTasksSeparator1.Size = new System.Drawing.Size(177, 6);
+            this.mnuTasksSeparator1.Size = new System.Drawing.Size(118, 6);
             // 
             // mnuTasksToggleEnabled
             // 
             this.mnuTasksToggleEnabled.Name = "mnuTasksToggleEnabled";
-            this.mnuTasksToggleEnabled.Size = new System.Drawing.Size(180, 22);
+            this.mnuTasksToggleEnabled.Size = new System.Drawing.Size(121, 22);
             this.mnuTasksToggleEnabled.Text = "Enable";
             this.mnuTasksToggleEnabled.Click += new System.EventHandler(this.MnuTasksToggleEnabled_Click);
+            // 
+            // mnuTasksClearLog
+            // 
+            this.mnuTasksClearLog.Name = "mnuTasksClearLog";
+            this.mnuTasksClearLog.Size = new System.Drawing.Size(121, 22);
+            this.mnuTasksClearLog.Text = "Clear log";
+            this.mnuTasksClearLog.Click += new System.EventHandler(this.MnuTasksClearLog_Click);
             // 
             // mnuTasksEdit
             // 
             this.mnuTasksEdit.Name = "mnuTasksEdit";
-            this.mnuTasksEdit.Size = new System.Drawing.Size(180, 22);
+            this.mnuTasksEdit.Size = new System.Drawing.Size(121, 22);
             this.mnuTasksEdit.Text = "Edit";
             this.mnuTasksEdit.Click += new System.EventHandler(this.MnuTasksEdit_Click);
             // 
             // mnuTasksDelete
             // 
             this.mnuTasksDelete.Name = "mnuTasksDelete";
-            this.mnuTasksDelete.Size = new System.Drawing.Size(180, 22);
+            this.mnuTasksDelete.Size = new System.Drawing.Size(121, 22);
             this.mnuTasksDelete.Text = "Delete";
             this.mnuTasksDelete.Click += new System.EventHandler(this.MnuTasksDelete_Click);
             // 
             // mnuTasksSeparator2
             // 
             this.mnuTasksSeparator2.Name = "mnuTasksSeparator2";
-            this.mnuTasksSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.mnuTasksSeparator2.Size = new System.Drawing.Size(118, 6);
             // 
             // mnuTasksAddNew
             // 
             this.mnuTasksAddNew.Name = "mnuTasksAddNew";
-            this.mnuTasksAddNew.Size = new System.Drawing.Size(180, 22);
+            this.mnuTasksAddNew.Size = new System.Drawing.Size(121, 22);
             this.mnuTasksAddNew.Text = "Add new";
             this.mnuTasksAddNew.Click += new System.EventHandler(this.MnuTasksAddNew_Click);
-            // 
-            // mnuTasksClearLog
-            // 
-            this.mnuTasksClearLog.Name = "mnuTasksClearLog";
-            this.mnuTasksClearLog.Size = new System.Drawing.Size(180, 22);
-            this.mnuTasksClearLog.Text = "Clear log";
-            this.mnuTasksClearLog.Click += new System.EventHandler(this.MnuTasksClearLog_Click);
             // 
             // tabTask
             // 

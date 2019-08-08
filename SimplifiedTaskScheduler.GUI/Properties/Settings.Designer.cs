@@ -46,5 +46,17 @@ namespace SimplifiedTaskScheduler.GUI.Properties {
                 this["ShowProgressNotifications"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool KeepNotificationsOnTop {
+            get {
+                return ((bool)(this["KeepNotificationsOnTop"]));
+            }
+            set {
+                this["KeepNotificationsOnTop"] = value;
+            }
+        }
     }
 }

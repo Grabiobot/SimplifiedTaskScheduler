@@ -34,15 +34,15 @@ namespace SimplifiedTaskScheduler.GUI
                 }
 
                 DateTime now = DateTime.Now;
-                //if (notificationType == Base.Events.ENotificationType.TaskOutput)
-                //{
-                //    if (now.Subtract(_lastAccepted).TotalMilliseconds < 300) return;
-                //}
+                if (notificationType == Base.Events.ENotificationType.TaskOutput)
+                {
+                    if (now.Subtract(_lastAccepted).TotalMilliseconds < 300) return;
+                }
                 _lastAccepted = now;
                 if (_frm == null || _frm.IsDisposed)
                 {
                     _frm = new FormNotification();
-
+                    _frm.TopMost = SettingsManager.CurrentSettings.KeepNotificationsOnTop;
                     _frm.Message = message;
                     _frm.Title = taskName;
                     _frm.NotificationType = notificationType;
@@ -66,6 +66,7 @@ namespace SimplifiedTaskScheduler.GUI
                     //_frm = new FormNotification();
                     // better approach: change for details
                     _frm.StopTimer();
+                    _frm.TopMost = SettingsManager.CurrentSettings.KeepNotificationsOnTop;
                     _frm.Message = message;
                     _frm.Title = taskName;
                     _frm.NotificationType = notificationType;

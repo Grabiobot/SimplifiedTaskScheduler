@@ -377,8 +377,8 @@ namespace SimplifiedTaskScheduler.GUI
             }
             else
             {
-                //MessageBox.Show("Selected task is not currently running! ", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                KillTaskNow(taskData);
+                MessageBox.Show("Selected task is not currently running! ", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //KillTaskNow(taskData);
             }
         }
         private void MnuTasksToggleEnabled_Click(object sender, EventArgs e)

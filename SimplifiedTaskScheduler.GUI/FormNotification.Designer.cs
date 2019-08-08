@@ -77,6 +77,7 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Notification";
+            this.TopMost = true;
             this.Shown += new System.EventHandler(this.FormNotification_Shown);
             this.Click += new System.EventHandler(this.FormNotification_Click);
             this.ResumeLayout(false);
