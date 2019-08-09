@@ -131,6 +131,7 @@ namespace SimplifiedTaskScheduler.GUI
         private void TaskData_Exited(object sender, Base.Events.TaskExitedEventArgs e)
         {
             OnExited(e.ExitCode, e.Data, e.TaskId);
+            Controller.Instance.SaveData("");
         }
         private void TaskData_OutputDataReceived(object sender, Base.Events.TaskDataReceivedEventArgs e)
         {
@@ -374,11 +375,13 @@ namespace SimplifiedTaskScheduler.GUI
             if (taskData.DebugData.Runner.IsRunning())
             {
                 KillTaskNow(taskData);
+                Controller.Instance.SaveData("");
             }
             else
             {
                 MessageBox.Show("Selected task is not currently running! ", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //KillTaskNow(taskData);
+                //Controller.Instance.SaveData("");
             }
         }
         private void MnuTasksToggleEnabled_Click(object sender, EventArgs e)

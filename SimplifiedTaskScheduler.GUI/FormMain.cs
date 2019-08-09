@@ -82,6 +82,7 @@ Quitting it will prevent scheduled tasks to be executed until you start it again
         private void TimerTick_Tick(object sender, EventArgs e)
         {
             Scheduler.TasksScheduler.Instance.Cleanup(Base.Accessor.Instance.Tasks);
+            Controller.Instance.SaveData(""); //Save after closring idle tasks
             Scheduler.TasksScheduler.Instance.ReBuildQueue(Base.Accessor.Instance.Tasks);
             Scheduler.TasksScheduler.Instance.RunNext();
         }

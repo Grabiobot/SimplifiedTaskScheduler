@@ -1,6 +1,7 @@
 ﻿using SimplifiedTaskScheduler.Base;
 using SimplifiedTaskScheduler.Base.Data;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,19 +26,26 @@ namespace SimplifiedTaskScheduler.GUI
         }
         #endregion
 
-        private Dictionary<string, TaskFolder> _foldersById;
-        private Dictionary<string, TaskData> _tasksById;
+        private ConcurrentDictionary<string, TaskFolder> _foldersById;
+        private ConcurrentDictionary<string, TaskData> _tasksById;
+        private object _locker = new object();
         public void LoadData(string sourceFile)
         {
-            //AddFakeData();
-            LoadDataFile();
-            BuildFoldersList();
-            BuildTasksList();
+            lock (_locker)
+            {
+                //AddFakeData();
+                LoadDataFile();
+                BuildFoldersList();
+                BuildTasksList();
+            }
         }
         public void SaveData(string sourceFile)
         {
-            //AddFakeData();
-            SaveDataFile();
+            lock (_locker)
+            {
+                //AddFakeData();
+                SaveDataFile();
+            }
         }
         private string GetFilePath() {
 
@@ -163,12 +171,12 @@ namespace SimplifiedTaskScheduler.GUI
             });
         }
         private void BuildFoldersList() {
-            _foldersById = new Dictionary<string, TaskFolder>();
+            _foldersById = new ConcurrentDictionary<string, TaskFolder>();
             AddFolderToList(Accessor.Instance.Tasks);
         }
         private void AddFolderToList(TaskFolder folder)
         {
-            _foldersById.Add(folder.Id, folder);
+            _foldersById.TryAdd(folder.Id, folder);
             for (int i = 0; i < folder.SubFolders.Count; i++)
             {
                 AddFolderToList(folder.SubFolders[i]);
@@ -176,7 +184,7 @@ namespace SimplifiedTaskScheduler.GUI
         }
         private void BuildTasksList()
         {
-            _tasksById = new Dictionary<string, TaskData>();
+            _tasksById = new ConcurrentDictionary<string, TaskData>();
             AddTasksToList(Accessor.Instance.Tasks);
         }
         private void AddTasksToList(TaskFolder folder)
@@ -184,7 +192,7 @@ namespace SimplifiedTaskScheduler.GUI
             for (int i = 0; i < folder.Tasks.Count; i++)
             {
                 SetTastRunner(folder.Tasks[i]);
-                _tasksById.Add(folder.Tasks[i].Id, folder.Tasks[i]);
+                _tasksById.TryAdd(folder.Tasks[i].Id, folder.Tasks[i]);
             }
             for (int i = 0; i < folder.SubFolders.Count; i++)
             {
@@ -196,7 +204,6 @@ namespace SimplifiedTaskScheduler.GUI
             taskData.DebugData.Runner = new Runner.TaskRunnerSyncTaskRunnerSync(taskData);
             taskData.DebugData.Runner.TaskNotification += Runner_TaskNotification;
         }
-
         private void Runner_TaskNotification(object sender, Base.Events.TaskNotificationEventArgs e)
         {
             NotificationManager.Instance.ShowNotification(e.Message, e.TaskId, e.TaskName, e.NotificationType);
@@ -215,13 +222,13 @@ namespace SimplifiedTaskScheduler.GUI
             TaskFolder folder = GetFolderById(folderId);
             TaskData task = GetTaskBeId(taskId);
             folder.Tasks.Remove(task);
-            _tasksById.Remove(taskId);
+            _tasksById.TryRemove(taskId,out _);
         }
         public void DeleteFolder(string folderId, string parentFolderId)
         {
             TaskFolder folder = GetFolderById(folderId);
             TaskFolder parentFolder = GetFolderById(parentFolderId);
-            _foldersById.Remove(folder.Id);
+            _foldersById.TryRemove(folder.Id, out _);
             parentFolder.SubFolders.Remove(folder);
         }
         public TaskFolder AddChildFolder(string parentFolderId)
@@ -233,7 +240,7 @@ namespace SimplifiedTaskScheduler.GUI
                 Tasks = new List<TaskData>(),
                 SubFolders = new List<TaskFolder>()
             };
-            _foldersById.Add(folder.Id, folder);
+            _foldersById.TryAdd(folder.Id, folder);
             parentFolder.SubFolders.Add(folder);
             return folder;
         }
@@ -267,7 +274,7 @@ namespace SimplifiedTaskScheduler.GUI
         public void AddChildTask(string folderId, TaskData taskData)
         {
             GetFolderById(folderId).Tasks.Add(taskData);
-            _tasksById.Add(taskData.Id, taskData);
+            _tasksById.TryAdd(taskData.Id, taskData);
         }
     }
 }
