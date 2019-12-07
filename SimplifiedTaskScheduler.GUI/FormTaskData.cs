@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SimplifiedTaskScheduler.GUI
@@ -13,6 +6,7 @@ namespace SimplifiedTaskScheduler.GUI
     public partial class FormTaskData : Form
     {
         public Base.Data.TaskData TaskData { get; set; }
+
         public FormTaskData()
         {
             InitializeComponent();
@@ -22,6 +16,7 @@ namespace SimplifiedTaskScheduler.GUI
         {
             this.SetAppIcon();
             chkEnabled.Checked = TaskData.IsEnabled;
+            chkNotifyProgress.Checked = TaskData.NotifyProgressOutput;
             txtName.Text = TaskData.Name;
             txtDescription.Text = TaskData.Description;
 
@@ -42,7 +37,6 @@ namespace SimplifiedTaskScheduler.GUI
             dtpExpiryDate.Value = TaskData.SchedulingData.ExpiryDateTime;
             dtpExpiryTime.Value = TaskData.SchedulingData.ExpiryDateTime;
             nudDaysBetween.Value = TaskData.SchedulingData.DaysBetweenRepetitions;
-            //nudWeeksBetween.Value = TaskData.SchedulingData.WeeksBetweenRepetitions;
             Base.Data.EWeekDay weekDay = TaskData.SchedulingData.WeeksDays;
             if ((weekDay & Base.Data.EWeekDay.Monday) == Base.Data.EWeekDay.Monday)
             {
@@ -103,7 +97,6 @@ namespace SimplifiedTaskScheduler.GUI
                     lblDaysBetween.Visible = false;
                     nudDaysBetween.Visible = false;
                     lblweeksBetween.Visible = false;
-                    //nudWeeksBetween.Visible = false;
                     lblWeekDays.Visible = false;
                     chklWeekDays.Visible = false;
                     break;
@@ -114,7 +107,6 @@ namespace SimplifiedTaskScheduler.GUI
                     lblDaysBetween.Visible = true;
                     nudDaysBetween.Visible = true;
                     lblweeksBetween.Visible = false;
-                    //nudWeeksBetween.Visible = false;
                     lblWeekDays.Visible = false;
                     chklWeekDays.Visible = false;
                     break;
@@ -125,7 +117,6 @@ namespace SimplifiedTaskScheduler.GUI
                     lblDaysBetween.Visible = false;
                     nudDaysBetween.Visible = false;
                     lblweeksBetween.Visible = false;
-                    //nudWeeksBetween.Visible = true;
                     lblWeekDays.Visible = true;
                     chklWeekDays.Visible = true;
                     break;
@@ -137,6 +128,7 @@ namespace SimplifiedTaskScheduler.GUI
         private void BtnOk_Click(object sender, EventArgs e)
         {
             TaskData.IsEnabled = chkEnabled.Checked;
+            TaskData.NotifyProgressOutput = chkNotifyProgress.Checked;
             TaskData.Name = txtName.Text;
             TaskData.Description = txtDescription.Text;
 
@@ -164,7 +156,6 @@ namespace SimplifiedTaskScheduler.GUI
             TaskData.SchedulingData.ExpiryDateTime = new DateTime(dtpExpiryDate.Value.Year, dtpExpiryDate.Value.Month, dtpExpiryDate.Value.Day,
                 dtpExpiryTime.Value.Hour, dtpExpiryTime.Value.Minute, dtpExpiryTime.Value.Second, 0);
             TaskData.SchedulingData.DaysBetweenRepetitions = (int)nudDaysBetween.Value;
-            //TaskData.SchedulingData.WeeksBetweenRepetitions = (int)nudWeeksBetween.Value;
             string selectedItem = (string)cbostartType.SelectedItem;
             switch (selectedItem)
             {
@@ -180,15 +171,14 @@ namespace SimplifiedTaskScheduler.GUI
                 default:
                     throw new NotImplementedException();
             }
-
             Base.Data.EWeekDay weekDay = Base.Data.EWeekDay.None;
-            if (chklWeekDays.GetItemChecked(0)) weekDay = weekDay | Base.Data.EWeekDay.Monday;
-            if (chklWeekDays.GetItemChecked(1)) weekDay = weekDay | Base.Data.EWeekDay.Tuesday;
-            if (chklWeekDays.GetItemChecked(2)) weekDay = weekDay | Base.Data.EWeekDay.Wednesday;
-            if (chklWeekDays.GetItemChecked(3)) weekDay = weekDay | Base.Data.EWeekDay.Thursday;
-            if (chklWeekDays.GetItemChecked(4)) weekDay = weekDay | Base.Data.EWeekDay.Friday;
-            if (chklWeekDays.GetItemChecked(5)) weekDay = weekDay | Base.Data.EWeekDay.Saturday;
-            if (chklWeekDays.GetItemChecked(6)) weekDay = weekDay | Base.Data.EWeekDay.Sunday;
+            if (chklWeekDays.GetItemChecked(0)) weekDay |= Base.Data.EWeekDay.Monday;
+            if (chklWeekDays.GetItemChecked(1)) weekDay |= Base.Data.EWeekDay.Tuesday;
+            if (chklWeekDays.GetItemChecked(2)) weekDay |= Base.Data.EWeekDay.Wednesday;
+            if (chklWeekDays.GetItemChecked(3)) weekDay |= Base.Data.EWeekDay.Thursday;
+            if (chklWeekDays.GetItemChecked(4)) weekDay |= Base.Data.EWeekDay.Friday;
+            if (chklWeekDays.GetItemChecked(5)) weekDay |= Base.Data.EWeekDay.Saturday;
+            if (chklWeekDays.GetItemChecked(6)) weekDay |= Base.Data.EWeekDay.Sunday;
             TaskData.SchedulingData.WeeksDays = weekDay;
         }
 

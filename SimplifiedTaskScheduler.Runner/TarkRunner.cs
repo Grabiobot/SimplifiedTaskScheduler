@@ -18,18 +18,25 @@ namespace SimplifiedTaskScheduler.Runner
         private bool _hasErrorMessage = false;
         private bool _hasOutputMessage = false;
         private Process _process = null;
-        private TaskData _taskData = null;
+        private readonly TaskData _taskData;
         private readonly object _locker = new object();
-        private ETaskStatus _taskStatus = ETaskStatus.Ready;
+        private ETaskStatus _taskStatus;
+
         public TarkRunner (TaskData taskData) {
             _taskData = taskData;
             _taskStatus = _taskData.DebugData.TaskStatus;
         }
+
         public void Run()
         {
-            if (IsRunning()) throw new Exception("Previous instance is still running!");
+            if (IsRunning())
+            {
+                throw new Exception("Previous instance is still running!");
+            }
+
             RunTaskAsProcess(_taskData);
         }
+
         private void RunTaskAsProcess(TaskData taskData)
         {
             _hasErrorMessage = false;
@@ -57,7 +64,6 @@ namespace SimplifiedTaskScheduler.Runner
                 {
                     ssPwd.AppendChar(password[x]);
                 }
-                password = "";
                 process.StartInfo.Password = ssPwd;
             }
 
@@ -102,7 +108,7 @@ namespace SimplifiedTaskScheduler.Runner
             {
                 _taskData.DebugData.DateLastSignal = DateTime.Now;
                 Process process = sender as Process;
-                int result = process.ExitCode; //this tell if there was an error or not        
+                int result = process.ExitCode; //this tell if there was an error or not
                 string message = ToExitMessage(result.ToString());
                 _taskData.DebugData.Output += message;
                 Exited?.Invoke(this, new TaskExitedEventArgs(result, message, _taskData.Id));
@@ -112,15 +118,15 @@ namespace SimplifiedTaskScheduler.Runner
                 _hasErrorMessage = false;
                 _hasOutputMessage = false;
                 _process = null;
-                string notificationMessageTemplate = "Task \"{0}\" exited with exit code {1}.";
+                const string notificationMessageTemplate = "Task \"{0}\" exited with exit code {1}.";
                 string notificationMessage = string.Format(notificationMessageTemplate, _taskData.Name, process.ExitCode);
                 TaskNotification?.Invoke(this, new TaskNotificationEventArgs(notificationMessage, _taskData.Id, _taskData.Name, ENotificationType.TaskExit));
                 string managementMessage = ToManagementMessage(notificationMessage);
                 _taskData.DebugData.Output += managementMessage;
                 ManagementDataReceived?.Invoke(this, new TaskDataReceivedEventArgs(managementMessage, _taskData.Id));
-
             }
         }
+
         private void Process_ErrorDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
         {
             lock (_locker)
@@ -135,12 +141,13 @@ namespace SimplifiedTaskScheduler.Runner
                     _taskData.DebugData.TaskStatus = ETaskStatus.RunningWithErrors;
                     _taskStatus = _taskData.DebugData.TaskStatus;
                     StatusChanged?.Invoke(this, new TaskStatusChangedEventArgs(_taskStatus, _taskData.Id));
-                    string notificationMessageTemplate = "Task \"{0}\" sent error message:\r\n\t {1}.";
+                    const string notificationMessageTemplate = "Task \"{0}\" sent error message:\r\n\t {1}.";
                     string notificationMessage = string.Format(notificationMessageTemplate, _taskData.Name, e.Data);
                     TaskNotification?.Invoke(this, new TaskNotificationEventArgs(notificationMessage, _taskData.Id, _taskData.Name, ENotificationType.TaskError));
                 }
             }
         }
+
         private void Process_OutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
         {
             lock (_locker)
@@ -152,53 +159,62 @@ namespace SimplifiedTaskScheduler.Runner
                     string message = ToOutputMessage(e.Data);
                     _taskData.DebugData.Output += message;
                     OutputDataReceived?.Invoke(this, new TaskDataReceivedEventArgs(message, _taskData.Id));
-                    string notificationMessageTemplate = "Task \"{0}\" sent normal progress message:\r\n\t {1}.";
-                    string notificationMessage = string.Format(notificationMessageTemplate, _taskData.Name, e.Data);
-                    TaskNotification?.Invoke(this, new TaskNotificationEventArgs(notificationMessage, _taskData.Id, _taskData.Name, ENotificationType.TaskOutput));
+                    if (_taskData.NotifyProgressOutput)
+                    {
+                        const string notificationMessageTemplate = "Task \"{0}\" sent normal progress message:\r\n\t {1}.";
+                        string notificationMessage = string.Format(notificationMessageTemplate, _taskData.Name, e.Data);
+                        TaskNotification?.Invoke(this, new TaskNotificationEventArgs(notificationMessage, _taskData.Id, _taskData.Name, ENotificationType.TaskOutput));
+                    }
                 }
             }
         }
+
         protected virtual string ToErrorMessage(string message)
         {
             return Environment.NewLine + "ERROR: " + message;
         }
+
         protected virtual string ToOutputMessage(string message)
         {
             return Environment.NewLine + message;
         }
+
         protected virtual string ToManagementMessage(string message)
         {
             return Environment.NewLine + Environment.NewLine + "==>"  + message +" ["+ DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")+"] <==" + Environment.NewLine;
         }
+
         protected virtual string ToExitMessage(string message)
         {
             return Environment.NewLine + "Process exited with ExitCode: " + message;
         }
+
         public void Kill()
         {
             DoKill();
-            string notificationMessageTemplate = "Task \"{0}\" killed.";
+            const string notificationMessageTemplate = "Task \"{0}\" killed.";
             string notificationMessage = string.Format(notificationMessageTemplate, _taskData.Name);
             TaskNotification?.Invoke(this, new TaskNotificationEventArgs(notificationMessage, _taskData.Id, _taskData.Name, ENotificationType.TaskKilled));
             string managementMessage = ToManagementMessage(notificationMessage);
             _taskData.DebugData.Output += managementMessage;
             ManagementDataReceived?.Invoke(this, new TaskDataReceivedEventArgs(managementMessage, _taskData.Id));
         }
+
         private void DoKill()
         {
             try
             {
-                if (_process != null && !_process.HasExited)
+                if (_process?.HasExited == false)
                 {
-                    //_process.Kill();
                     KillProcessAndChildrens(_process.Id);
                     _process.OutputDataReceived -= Process_OutputDataReceived;
                     _process.ErrorDataReceived -= Process_ErrorDataReceived;
                     _process.Exited -= Process_Exited;
                 }
             }
-            catch (Exception exc)
+            catch
             {
+                // nothing
             }
             _taskData.DebugData.TaskStatus = _taskData.DebugData.HasErrors() ? ETaskStatus.KilledWithErrors : ETaskStatus.Killed;
             _taskStatus = _taskData.DebugData.TaskStatus;
@@ -206,6 +222,7 @@ namespace SimplifiedTaskScheduler.Runner
             _hasErrorMessage = false;
             _hasOutputMessage = false;
         }
+
         private static void KillProcessAndChildrens(int pid)
         {
             ManagementObjectSearcher processSearcher = new ManagementObjectSearcher
@@ -217,7 +234,7 @@ namespace SimplifiedTaskScheduler.Runner
             {
                 foreach (ManagementObject mo in processCollection)
                 {
-                    KillProcessAndChildrens(Convert.ToInt32(mo["ProcessID"])); //kill child processes(also kills childrens of childrens etc.)
+                    KillProcessAndChildrens(Convert.ToInt32(mo["ProcessID"])); //kill child processes(also kills children of children etc.)
                 }
             }
 
@@ -232,30 +249,33 @@ namespace SimplifiedTaskScheduler.Runner
                 // Process already exited.
             }
         }
+
         public bool IsRunning()
         {
             try
             {
-                return _process != null && !_process.HasExited;
+                return _process?.HasExited == false;
             }
-            catch (Exception exc)
+            catch
             {
                 return false;
             }
         }
+
         public ETaskStatus TaskStatus { get { return _taskStatus; } }
+
         public void CloseIdle()
         {
             if (!IsRunning()) return;
             TimeSpan idleTime = new TimeSpan(_taskData.ActioningData.StopIfIdleHours,
                 _taskData.ActioningData.StopIfIdleMinutes, _taskData.ActioningData.StopIfIdleSeconds);
-            if (idleTime.TotalSeconds == 0) return; // Do not killl tasks with 0 idle hours, minutes, seconds.
+            if (idleTime.TotalSeconds == 0) return; // Do not kill tasks with 0 idle hours, minutes, seconds.
             if (_taskData.DebugData.DateLastSignal.Add(idleTime) < DateTime.Now)
             {
                 DoKill();
                 _taskData.DebugData.TaskStatus = ETaskStatus.Ready;
                 StatusChanged?.Invoke(this, new TaskStatusChangedEventArgs(_taskStatus, _taskData.Id));
-                string notificationMessageTemplate = "Task \"{0}\" stopped after being idle";
+                const string notificationMessageTemplate = "Task \"{0}\" stopped after being idle";
                 string notificationMessage = string.Format(notificationMessageTemplate, _taskData.Name);
                 TaskNotification?.Invoke(this, new TaskNotificationEventArgs(notificationMessage, _taskData.Id, _taskData.Name, ENotificationType.TaskIdleKilled));
                 string managementMessage = ToManagementMessage(notificationMessage);

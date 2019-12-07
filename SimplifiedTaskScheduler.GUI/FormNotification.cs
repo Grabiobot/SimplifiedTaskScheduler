@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SimplifiedTaskScheduler.GUI
@@ -15,14 +9,17 @@ namespace SimplifiedTaskScheduler.GUI
         public string Message { get; set; }
         public string Title { get; set; }
         public Base.Events.ENotificationType NotificationType { get; set; }
+
         public FormNotification()
         {
             InitializeComponent();
         }
+
         public void StopTimer()
         {
             timer1.Stop();
         }
+
         public void UpdateContent() {
             timer1.Stop();
             timer1.Interval = 5000;
@@ -34,30 +31,31 @@ namespace SimplifiedTaskScheduler.GUI
             switch (NotificationType)
             {
                 case Base.Events.ENotificationType.TaskStart:
-                    this.BackColor = Color.MediumSeaGreen; // Also good: DarkOliveGreen
+                    BackColor = Color.MediumSeaGreen;
                     break;
                 case Base.Events.ENotificationType.TaskError:
-                    this.BackColor = Color.LightCoral; // Also good:  MediumVioletRed or PaleVioletRed
+                    BackColor = Color.LightCoral;
                     break;
                 case Base.Events.ENotificationType.TaskKilled:
-                    this.BackColor = Color.LightSteelBlue;
+                    BackColor = Color.LightSteelBlue;
                     break;
                 case Base.Events.ENotificationType.TaskIdleKilled:
-                    this.BackColor = Color.MediumSeaGreen;
+                    BackColor = Color.MediumSeaGreen;
                     break;
                 case Base.Events.ENotificationType.TaskOutput:
-                    this.BackColor = Color.LightSteelBlue;
+                    BackColor = Color.LightSteelBlue;
                     break;
                 case Base.Events.ENotificationType.TaskExit:
-                    this.BackColor = Color.MediumSeaGreen;
+                    BackColor = Color.MediumSeaGreen;
                     break;
                 case Base.Events.ENotificationType.TaskCrash:
-                    this.BackColor = Color.LightCoral;
+                    BackColor = Color.LightCoral;
                     break;
                 default:
                     throw new NotFiniteNumberException();
             }
         }
+
         private void FormNotification_Shown(object sender, EventArgs e)
         {
             UpdateContent();

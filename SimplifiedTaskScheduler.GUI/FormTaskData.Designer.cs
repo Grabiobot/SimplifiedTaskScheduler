@@ -42,6 +42,13 @@
             this.lblDescription = new System.Windows.Forms.Label();
             this.lblName = new System.Windows.Forms.Label();
             this.tbpCommand = new System.Windows.Forms.TabPage();
+            this.nudSeconds = new System.Windows.Forms.NumericUpDown();
+            this.lblSeconds = new System.Windows.Forms.Label();
+            this.nudMinutes = new System.Windows.Forms.NumericUpDown();
+            this.lblMinutes = new System.Windows.Forms.Label();
+            this.nudHours = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblHours = new System.Windows.Forms.Label();
             this.grpOtherUser = new System.Windows.Forms.GroupBox();
             this.lblPasswordLabel = new System.Windows.Forms.Label();
             this.lblPassword = new System.Windows.Forms.Label();
@@ -68,23 +75,17 @@
             this.lblStartDateTime = new System.Windows.Forms.Label();
             this.btnOk = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.lblHours = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.nudHours = new System.Windows.Forms.NumericUpDown();
-            this.nudMinutes = new System.Windows.Forms.NumericUpDown();
-            this.lblMinutes = new System.Windows.Forms.Label();
-            this.nudSeconds = new System.Windows.Forms.NumericUpDown();
-            this.lblSeconds = new System.Windows.Forms.Label();
+            this.chkNotifyProgress = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.nudDaysBetween)).BeginInit();
             this.tabTaskData.SuspendLayout();
             this.tbpDetails.SuspendLayout();
             this.tbpCommand.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSeconds)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMinutes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudHours)).BeginInit();
             this.grpOtherUser.SuspendLayout();
             this.tbpSchedule.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudWeeksBetween)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudHours)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudMinutes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSeconds)).BeginInit();
             this.SuspendLayout();
             // 
             // txtDescription
@@ -92,31 +93,31 @@
             this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescription.Location = new System.Drawing.Point(74, 52);
-            this.txtDescription.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtDescription.Location = new System.Drawing.Point(99, 104);
+            this.txtDescription.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtDescription.Size = new System.Drawing.Size(596, 409);
+            this.txtDescription.Size = new System.Drawing.Size(793, 457);
             this.txtDescription.TabIndex = 0;
             // 
             // txtName
             // 
             this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtName.Location = new System.Drawing.Point(74, 25);
-            this.txtName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtName.Location = new System.Drawing.Point(99, 71);
+            this.txtName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(596, 20);
+            this.txtName.Size = new System.Drawing.Size(793, 22);
             this.txtName.TabIndex = 1;
             // 
             // chkEnabled
             // 
             this.chkEnabled.AutoSize = true;
-            this.chkEnabled.Location = new System.Drawing.Point(4, 5);
-            this.chkEnabled.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkEnabled.Location = new System.Drawing.Point(5, 6);
+            this.chkEnabled.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkEnabled.Name = "chkEnabled";
-            this.chkEnabled.Size = new System.Drawing.Size(65, 17);
+            this.chkEnabled.Size = new System.Drawing.Size(82, 21);
             this.chkEnabled.TabIndex = 2;
             this.chkEnabled.Text = "Enabled";
             this.chkEnabled.UseVisualStyleBackColor = true;
@@ -125,29 +126,29 @@
             // 
             this.txtCommand.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCommand.Location = new System.Drawing.Point(106, 5);
-            this.txtCommand.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtCommand.Location = new System.Drawing.Point(141, 6);
+            this.txtCommand.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCommand.Name = "txtCommand";
-            this.txtCommand.Size = new System.Drawing.Size(565, 20);
+            this.txtCommand.Size = new System.Drawing.Size(752, 22);
             this.txtCommand.TabIndex = 3;
             // 
             // txtCommandArguments
             // 
             this.txtCommandArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtCommandArguments.Location = new System.Drawing.Point(106, 28);
-            this.txtCommandArguments.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtCommandArguments.Location = new System.Drawing.Point(141, 34);
+            this.txtCommandArguments.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtCommandArguments.Name = "txtCommandArguments";
-            this.txtCommandArguments.Size = new System.Drawing.Size(565, 20);
+            this.txtCommandArguments.Size = new System.Drawing.Size(752, 22);
             this.txtCommandArguments.TabIndex = 4;
             // 
             // chkRunAsOtherUser
             // 
             this.chkRunAsOtherUser.AutoSize = true;
-            this.chkRunAsOtherUser.Location = new System.Drawing.Point(9, 73);
-            this.chkRunAsOtherUser.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chkRunAsOtherUser.Location = new System.Drawing.Point(12, 90);
+            this.chkRunAsOtherUser.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chkRunAsOtherUser.Name = "chkRunAsOtherUser";
-            this.chkRunAsOtherUser.Size = new System.Drawing.Size(110, 17);
+            this.chkRunAsOtherUser.Size = new System.Drawing.Size(144, 21);
             this.chkRunAsOtherUser.TabIndex = 5;
             this.chkRunAsOtherUser.Text = "Run as other user";
             this.chkRunAsOtherUser.UseVisualStyleBackColor = true;
@@ -157,18 +158,18 @@
             // 
             this.dtpStartDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dtpStartDate.Location = new System.Drawing.Point(90, 4);
-            this.dtpStartDate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpStartDate.Location = new System.Drawing.Point(120, 5);
+            this.dtpStartDate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dtpStartDate.Name = "dtpStartDate";
-            this.dtpStartDate.Size = new System.Drawing.Size(479, 20);
+            this.dtpStartDate.Size = new System.Drawing.Size(637, 22);
             this.dtpStartDate.TabIndex = 6;
             // 
             // nudDaysBetween
             // 
             this.nudDaysBetween.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.nudDaysBetween.Location = new System.Drawing.Point(88, 74);
-            this.nudDaysBetween.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.nudDaysBetween.Location = new System.Drawing.Point(117, 91);
+            this.nudDaysBetween.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.nudDaysBetween.Maximum = new decimal(new int[] {
             365,
             0,
@@ -180,7 +181,7 @@
             0,
             0});
             this.nudDaysBetween.Name = "nudDaysBetween";
-            this.nudDaysBetween.Size = new System.Drawing.Size(575, 20);
+            this.nudDaysBetween.Size = new System.Drawing.Size(767, 22);
             this.nudDaysBetween.TabIndex = 8;
             this.nudDaysBetween.Value = new decimal(new int[] {
             1,
@@ -194,10 +195,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbostartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbostartType.FormattingEnabled = true;
-            this.cbostartType.Location = new System.Drawing.Point(90, 27);
-            this.cbostartType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cbostartType.Location = new System.Drawing.Point(120, 33);
+            this.cbostartType.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.cbostartType.Name = "cbostartType";
-            this.cbostartType.Size = new System.Drawing.Size(575, 21);
+            this.cbostartType.Size = new System.Drawing.Size(765, 24);
             this.cbostartType.TabIndex = 9;
             this.cbostartType.SelectedIndexChanged += new System.EventHandler(this.CbostartType_SelectedIndexChanged);
             // 
@@ -209,25 +210,26 @@
             this.tabTaskData.Controls.Add(this.tbpDetails);
             this.tabTaskData.Controls.Add(this.tbpCommand);
             this.tabTaskData.Controls.Add(this.tbpSchedule);
-            this.tabTaskData.Location = new System.Drawing.Point(9, 10);
-            this.tabTaskData.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabTaskData.Location = new System.Drawing.Point(12, 12);
+            this.tabTaskData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabTaskData.Name = "tabTaskData";
             this.tabTaskData.SelectedIndex = 0;
-            this.tabTaskData.Size = new System.Drawing.Size(680, 488);
+            this.tabTaskData.Size = new System.Drawing.Size(907, 601);
             this.tabTaskData.TabIndex = 12;
             // 
             // tbpDetails
             // 
+            this.tbpDetails.Controls.Add(this.chkNotifyProgress);
             this.tbpDetails.Controls.Add(this.lblDescription);
             this.tbpDetails.Controls.Add(this.lblName);
             this.tbpDetails.Controls.Add(this.chkEnabled);
             this.tbpDetails.Controls.Add(this.txtName);
             this.tbpDetails.Controls.Add(this.txtDescription);
-            this.tbpDetails.Location = new System.Drawing.Point(4, 22);
-            this.tbpDetails.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbpDetails.Location = new System.Drawing.Point(4, 25);
+            this.tbpDetails.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbpDetails.Name = "tbpDetails";
-            this.tbpDetails.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.tbpDetails.Size = new System.Drawing.Size(672, 462);
+            this.tbpDetails.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tbpDetails.Size = new System.Drawing.Size(899, 572);
             this.tbpDetails.TabIndex = 0;
             this.tbpDetails.Text = "Details";
             this.tbpDetails.UseVisualStyleBackColor = true;
@@ -235,20 +237,18 @@
             // lblDescription
             // 
             this.lblDescription.AutoSize = true;
-            this.lblDescription.Location = new System.Drawing.Point(4, 54);
-            this.lblDescription.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblDescription.Location = new System.Drawing.Point(5, 106);
             this.lblDescription.Name = "lblDescription";
-            this.lblDescription.Size = new System.Drawing.Size(63, 13);
+            this.lblDescription.Size = new System.Drawing.Size(83, 17);
             this.lblDescription.TabIndex = 4;
             this.lblDescription.Text = "Description:";
             // 
             // lblName
             // 
             this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(3, 28);
-            this.lblName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblName.Location = new System.Drawing.Point(4, 74);
             this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(38, 13);
+            this.lblName.Size = new System.Drawing.Size(49, 17);
             this.lblName.TabIndex = 3;
             this.lblName.Text = "Name:";
             // 
@@ -269,14 +269,90 @@
             this.tbpCommand.Controls.Add(this.txtCommand);
             this.tbpCommand.Controls.Add(this.chkRunAsOtherUser);
             this.tbpCommand.Controls.Add(this.txtCommandArguments);
-            this.tbpCommand.Location = new System.Drawing.Point(4, 22);
-            this.tbpCommand.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbpCommand.Location = new System.Drawing.Point(4, 25);
+            this.tbpCommand.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbpCommand.Name = "tbpCommand";
-            this.tbpCommand.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.tbpCommand.Size = new System.Drawing.Size(672, 462);
+            this.tbpCommand.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tbpCommand.Size = new System.Drawing.Size(899, 572);
             this.tbpCommand.TabIndex = 1;
             this.tbpCommand.Text = "Command";
             this.tbpCommand.UseVisualStyleBackColor = true;
+            // 
+            // nudSeconds
+            // 
+            this.nudSeconds.Location = new System.Drawing.Point(141, 426);
+            this.nudSeconds.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nudSeconds.Maximum = new decimal(new int[] {
+            59,
+            0,
+            0,
+            0});
+            this.nudSeconds.Name = "nudSeconds";
+            this.nudSeconds.Size = new System.Drawing.Size(753, 22);
+            this.nudSeconds.TabIndex = 26;
+            // 
+            // lblSeconds
+            // 
+            this.lblSeconds.AutoSize = true;
+            this.lblSeconds.Location = new System.Drawing.Point(4, 427);
+            this.lblSeconds.Name = "lblSeconds";
+            this.lblSeconds.Size = new System.Drawing.Size(67, 17);
+            this.lblSeconds.TabIndex = 25;
+            this.lblSeconds.Text = "Seconds:";
+            // 
+            // nudMinutes
+            // 
+            this.nudMinutes.Location = new System.Drawing.Point(141, 394);
+            this.nudMinutes.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nudMinutes.Maximum = new decimal(new int[] {
+            59,
+            0,
+            0,
+            0});
+            this.nudMinutes.Name = "nudMinutes";
+            this.nudMinutes.Size = new System.Drawing.Size(753, 22);
+            this.nudMinutes.TabIndex = 24;
+            // 
+            // lblMinutes
+            // 
+            this.lblMinutes.AutoSize = true;
+            this.lblMinutes.Location = new System.Drawing.Point(4, 395);
+            this.lblMinutes.Name = "lblMinutes";
+            this.lblMinutes.Size = new System.Drawing.Size(61, 17);
+            this.lblMinutes.TabIndex = 23;
+            this.lblMinutes.Text = "Minutes:";
+            // 
+            // nudHours
+            // 
+            this.nudHours.Location = new System.Drawing.Point(141, 362);
+            this.nudHours.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nudHours.Maximum = new decimal(new int[] {
+            23,
+            0,
+            0,
+            0});
+            this.nudHours.Name = "nudHours";
+            this.nudHours.Size = new System.Drawing.Size(753, 22);
+            this.nudHours.TabIndex = 22;
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.Location = new System.Drawing.Point(3, 337);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(896, 21);
+            this.label2.TabIndex = 21;
+            this.label2.Text = "Stop this task if idle for more than:";
+            // 
+            // lblHours
+            // 
+            this.lblHours.AutoSize = true;
+            this.lblHours.Location = new System.Drawing.Point(4, 363);
+            this.lblHours.Name = "lblHours";
+            this.lblHours.Size = new System.Drawing.Size(50, 17);
+            this.lblHours.TabIndex = 15;
+            this.lblHours.Text = "Hours:";
             // 
             // grpOtherUser
             // 
@@ -289,11 +365,11 @@
             this.grpOtherUser.Controls.Add(this.txtUserName);
             this.grpOtherUser.Controls.Add(this.lblDomainName);
             this.grpOtherUser.Controls.Add(this.txtDomainName);
-            this.grpOtherUser.Location = new System.Drawing.Point(9, 95);
-            this.grpOtherUser.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.grpOtherUser.Location = new System.Drawing.Point(12, 117);
+            this.grpOtherUser.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.grpOtherUser.Name = "grpOtherUser";
-            this.grpOtherUser.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.grpOtherUser.Size = new System.Drawing.Size(657, 161);
+            this.grpOtherUser.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.grpOtherUser.Size = new System.Drawing.Size(876, 198);
             this.grpOtherUser.TabIndex = 14;
             this.grpOtherUser.TabStop = false;
             // 
@@ -301,10 +377,9 @@
             // 
             this.lblPasswordLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblPasswordLabel.Location = new System.Drawing.Point(15, 18);
-            this.lblPasswordLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblPasswordLabel.Location = new System.Drawing.Point(20, 22);
             this.lblPasswordLabel.Name = "lblPasswordLabel";
-            this.lblPasswordLabel.Size = new System.Drawing.Size(638, 65);
+            this.lblPasswordLabel.Size = new System.Drawing.Size(851, 80);
             this.lblPasswordLabel.TabIndex = 20;
             this.lblPasswordLabel.Text = "Warning!\r\nPasswords are stored and handled INSECURELY!\r\nIt is recommended not to " +
     "use these options unless you are very sure about the safety of your environment." +
@@ -313,10 +388,9 @@
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(13, 133);
-            this.lblPassword.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblPassword.Location = new System.Drawing.Point(17, 164);
             this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(46, 13);
+            this.lblPassword.Size = new System.Drawing.Size(60, 17);
             this.lblPassword.TabIndex = 18;
             this.lblPassword.Text = "Domain:";
             // 
@@ -324,20 +398,19 @@
             // 
             this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtPassword.Location = new System.Drawing.Point(114, 131);
-            this.txtPassword.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtPassword.Location = new System.Drawing.Point(152, 161);
+            this.txtPassword.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(540, 20);
+            this.txtPassword.Size = new System.Drawing.Size(719, 22);
             this.txtPassword.TabIndex = 19;
             // 
             // lblUserName
             // 
             this.lblUserName.AutoSize = true;
-            this.lblUserName.Location = new System.Drawing.Point(13, 110);
-            this.lblUserName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblUserName.Location = new System.Drawing.Point(17, 135);
             this.lblUserName.Name = "lblUserName";
-            this.lblUserName.Size = new System.Drawing.Size(58, 13);
+            this.lblUserName.Size = new System.Drawing.Size(77, 17);
             this.lblUserName.TabIndex = 16;
             this.lblUserName.Text = "Username:";
             // 
@@ -345,19 +418,18 @@
             // 
             this.txtUserName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtUserName.Location = new System.Drawing.Point(114, 108);
-            this.txtUserName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtUserName.Location = new System.Drawing.Point(152, 133);
+            this.txtUserName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(540, 20);
+            this.txtUserName.Size = new System.Drawing.Size(719, 22);
             this.txtUserName.TabIndex = 17;
             // 
             // lblDomainName
             // 
             this.lblDomainName.AutoSize = true;
-            this.lblDomainName.Location = new System.Drawing.Point(13, 88);
-            this.lblDomainName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblDomainName.Location = new System.Drawing.Point(17, 108);
             this.lblDomainName.Name = "lblDomainName";
-            this.lblDomainName.Size = new System.Drawing.Size(46, 13);
+            this.lblDomainName.Size = new System.Drawing.Size(60, 17);
             this.lblDomainName.TabIndex = 14;
             this.lblDomainName.Text = "Domain:";
             // 
@@ -365,19 +437,18 @@
             // 
             this.txtDomainName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDomainName.Location = new System.Drawing.Point(114, 85);
-            this.txtDomainName.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtDomainName.Location = new System.Drawing.Point(152, 105);
+            this.txtDomainName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtDomainName.Name = "txtDomainName";
-            this.txtDomainName.Size = new System.Drawing.Size(540, 20);
+            this.txtDomainName.Size = new System.Drawing.Size(719, 22);
             this.txtDomainName.TabIndex = 15;
             // 
             // lblStartIn
             // 
             this.lblStartIn.AutoSize = true;
-            this.lblStartIn.Location = new System.Drawing.Point(7, 54);
-            this.lblStartIn.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblStartIn.Location = new System.Drawing.Point(9, 66);
             this.lblStartIn.Name = "lblStartIn";
-            this.lblStartIn.Size = new System.Drawing.Size(43, 13);
+            this.lblStartIn.Size = new System.Drawing.Size(57, 17);
             this.lblStartIn.TabIndex = 7;
             this.lblStartIn.Text = "Start in:";
             // 
@@ -385,29 +456,27 @@
             // 
             this.txtStartIn.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtStartIn.Location = new System.Drawing.Point(106, 50);
-            this.txtStartIn.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtStartIn.Location = new System.Drawing.Point(141, 62);
+            this.txtStartIn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtStartIn.Name = "txtStartIn";
-            this.txtStartIn.Size = new System.Drawing.Size(565, 20);
+            this.txtStartIn.Size = new System.Drawing.Size(752, 22);
             this.txtStartIn.TabIndex = 6;
             // 
             // lblCommandArguments
             // 
             this.lblCommandArguments.AutoSize = true;
-            this.lblCommandArguments.Location = new System.Drawing.Point(7, 31);
-            this.lblCommandArguments.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblCommandArguments.Location = new System.Drawing.Point(9, 38);
             this.lblCommandArguments.Name = "lblCommandArguments";
-            this.lblCommandArguments.Size = new System.Drawing.Size(60, 13);
+            this.lblCommandArguments.Size = new System.Drawing.Size(80, 17);
             this.lblCommandArguments.TabIndex = 5;
             this.lblCommandArguments.Text = "Arguments:";
             // 
             // lblCommand
             // 
             this.lblCommand.AutoSize = true;
-            this.lblCommand.Location = new System.Drawing.Point(4, 7);
-            this.lblCommand.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblCommand.Location = new System.Drawing.Point(5, 9);
             this.lblCommand.Name = "lblCommand";
-            this.lblCommand.Size = new System.Drawing.Size(57, 13);
+            this.lblCommand.Size = new System.Drawing.Size(75, 17);
             this.lblCommand.TabIndex = 0;
             this.lblCommand.Text = "Command:";
             // 
@@ -427,10 +496,10 @@
             this.tbpSchedule.Controls.Add(this.lblStartType);
             this.tbpSchedule.Controls.Add(this.lblStartDateTime);
             this.tbpSchedule.Controls.Add(this.dtpStartDate);
-            this.tbpSchedule.Location = new System.Drawing.Point(4, 22);
-            this.tbpSchedule.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbpSchedule.Location = new System.Drawing.Point(4, 25);
+            this.tbpSchedule.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbpSchedule.Name = "tbpSchedule";
-            this.tbpSchedule.Size = new System.Drawing.Size(672, 462);
+            this.tbpSchedule.Size = new System.Drawing.Size(899, 572);
             this.tbpSchedule.TabIndex = 2;
             this.tbpSchedule.Text = "Schedule";
             this.tbpSchedule.UseVisualStyleBackColor = true;
@@ -438,10 +507,9 @@
             // lblWeekDays
             // 
             this.lblWeekDays.AutoSize = true;
-            this.lblWeekDays.Location = new System.Drawing.Point(2, 97);
-            this.lblWeekDays.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblWeekDays.Location = new System.Drawing.Point(3, 119);
             this.lblWeekDays.Name = "lblWeekDays";
-            this.lblWeekDays.Size = new System.Drawing.Size(69, 13);
+            this.lblWeekDays.Size = new System.Drawing.Size(89, 17);
             this.lblWeekDays.TabIndex = 15;
             this.lblWeekDays.Text = "Weeks days:";
             // 
@@ -459,19 +527,18 @@
             "Friday",
             "Saturday",
             "Sunday"});
-            this.chklWeekDays.Location = new System.Drawing.Point(88, 97);
-            this.chklWeekDays.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.chklWeekDays.Location = new System.Drawing.Point(117, 119);
+            this.chklWeekDays.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.chklWeekDays.Name = "chklWeekDays";
-            this.chklWeekDays.Size = new System.Drawing.Size(576, 349);
+            this.chklWeekDays.Size = new System.Drawing.Size(767, 429);
             this.chklWeekDays.TabIndex = 14;
             // 
             // lblweeksBetween
             // 
             this.lblweeksBetween.AutoSize = true;
-            this.lblweeksBetween.Location = new System.Drawing.Point(2, 424);
-            this.lblweeksBetween.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblweeksBetween.Location = new System.Drawing.Point(3, 522);
             this.lblweeksBetween.Name = "lblweeksBetween";
-            this.lblweeksBetween.Size = new System.Drawing.Size(88, 13);
+            this.lblweeksBetween.Size = new System.Drawing.Size(112, 17);
             this.lblweeksBetween.TabIndex = 13;
             this.lblweeksBetween.Text = "Weeks between:";
             this.lblweeksBetween.Visible = false;
@@ -480,8 +547,8 @@
             // 
             this.nudWeeksBetween.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.nudWeeksBetween.Location = new System.Drawing.Point(88, 422);
-            this.nudWeeksBetween.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.nudWeeksBetween.Location = new System.Drawing.Point(117, 519);
+            this.nudWeeksBetween.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.nudWeeksBetween.Maximum = new decimal(new int[] {
             12,
             0,
@@ -493,7 +560,7 @@
             0,
             0});
             this.nudWeeksBetween.Name = "nudWeeksBetween";
-            this.nudWeeksBetween.Size = new System.Drawing.Size(575, 20);
+            this.nudWeeksBetween.Size = new System.Drawing.Size(767, 22);
             this.nudWeeksBetween.TabIndex = 12;
             this.nudWeeksBetween.Value = new decimal(new int[] {
             1,
@@ -505,10 +572,9 @@
             // lblDaysBetween
             // 
             this.lblDaysBetween.AutoSize = true;
-            this.lblDaysBetween.Location = new System.Drawing.Point(2, 76);
-            this.lblDaysBetween.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblDaysBetween.Location = new System.Drawing.Point(3, 94);
             this.lblDaysBetween.Name = "lblDaysBetween";
-            this.lblDaysBetween.Size = new System.Drawing.Size(78, 13);
+            this.lblDaysBetween.Size = new System.Drawing.Size(101, 17);
             this.lblDaysBetween.TabIndex = 11;
             this.lblDaysBetween.Text = "Days between:";
             // 
@@ -516,20 +582,19 @@
             // 
             this.dtpExpiryTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpExpiryTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpExpiryTime.Location = new System.Drawing.Point(572, 51);
-            this.dtpExpiryTime.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpExpiryTime.Location = new System.Drawing.Point(763, 63);
+            this.dtpExpiryTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dtpExpiryTime.Name = "dtpExpiryTime";
             this.dtpExpiryTime.ShowUpDown = true;
-            this.dtpExpiryTime.Size = new System.Drawing.Size(92, 20);
+            this.dtpExpiryTime.Size = new System.Drawing.Size(121, 22);
             this.dtpExpiryTime.TabIndex = 10;
             // 
             // lblExpiryDateTime
             // 
             this.lblExpiryDateTime.AutoSize = true;
-            this.lblExpiryDateTime.Location = new System.Drawing.Point(2, 53);
-            this.lblExpiryDateTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblExpiryDateTime.Location = new System.Drawing.Point(3, 65);
             this.lblExpiryDateTime.Name = "lblExpiryDateTime";
-            this.lblExpiryDateTime.Size = new System.Drawing.Size(39, 13);
+            this.lblExpiryDateTime.Size = new System.Drawing.Size(51, 17);
             this.lblExpiryDateTime.TabIndex = 8;
             this.lblExpiryDateTime.Text = "Expire:";
             // 
@@ -537,40 +602,38 @@
             // 
             this.dtpExpiryDate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dtpExpiryDate.Location = new System.Drawing.Point(90, 51);
-            this.dtpExpiryDate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpExpiryDate.Location = new System.Drawing.Point(120, 63);
+            this.dtpExpiryDate.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dtpExpiryDate.Name = "dtpExpiryDate";
-            this.dtpExpiryDate.Size = new System.Drawing.Size(479, 20);
+            this.dtpExpiryDate.Size = new System.Drawing.Size(637, 22);
             this.dtpExpiryDate.TabIndex = 9;
             // 
             // dtpStartTime
             // 
             this.dtpStartTime.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.dtpStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.dtpStartTime.Location = new System.Drawing.Point(572, 4);
-            this.dtpStartTime.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpStartTime.Location = new System.Drawing.Point(763, 5);
+            this.dtpStartTime.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dtpStartTime.Name = "dtpStartTime";
             this.dtpStartTime.ShowUpDown = true;
-            this.dtpStartTime.Size = new System.Drawing.Size(92, 20);
+            this.dtpStartTime.Size = new System.Drawing.Size(121, 22);
             this.dtpStartTime.TabIndex = 7;
             // 
             // lblStartType
             // 
             this.lblStartType.AutoSize = true;
-            this.lblStartType.Location = new System.Drawing.Point(2, 29);
-            this.lblStartType.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblStartType.Location = new System.Drawing.Point(3, 36);
             this.lblStartType.Name = "lblStartType";
-            this.lblStartType.Size = new System.Drawing.Size(55, 13);
+            this.lblStartType.Size = new System.Drawing.Size(73, 17);
             this.lblStartType.TabIndex = 1;
             this.lblStartType.Text = "Start type:";
             // 
             // lblStartDateTime
             // 
             this.lblStartDateTime.AutoSize = true;
-            this.lblStartDateTime.Location = new System.Drawing.Point(2, 6);
-            this.lblStartDateTime.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblStartDateTime.Location = new System.Drawing.Point(3, 7);
             this.lblStartDateTime.Name = "lblStartDateTime";
-            this.lblStartDateTime.Size = new System.Drawing.Size(32, 13);
+            this.lblStartDateTime.Size = new System.Drawing.Size(42, 17);
             this.lblStartDateTime.TabIndex = 0;
             this.lblStartDateTime.Text = "Start:";
             // 
@@ -578,10 +641,10 @@
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(572, 503);
-            this.btnOk.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnOk.Location = new System.Drawing.Point(763, 619);
+            this.btnOk.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(56, 19);
+            this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 14;
             this.btnOk.Text = "Ok";
             this.btnOk.UseVisualStyleBackColor = true;
@@ -591,103 +654,37 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(633, 503);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnCancel.Location = new System.Drawing.Point(844, 619);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(56, 19);
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 13;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // lblHours
+            // chkNotifyProgress
             // 
-            this.lblHours.AutoSize = true;
-            this.lblHours.Location = new System.Drawing.Point(3, 295);
-            this.lblHours.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblHours.Name = "lblHours";
-            this.lblHours.Size = new System.Drawing.Size(38, 13);
-            this.lblHours.TabIndex = 15;
-            this.lblHours.Text = "Hours:";
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.Location = new System.Drawing.Point(2, 274);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(672, 17);
-            this.label2.TabIndex = 21;
-            this.label2.Text = "Stop this task if idle for more than:";
-            // 
-            // nudHours
-            // 
-            this.nudHours.Location = new System.Drawing.Point(106, 294);
-            this.nudHours.Maximum = new decimal(new int[] {
-            23,
-            0,
-            0,
-            0});
-            this.nudHours.Name = "nudHours";
-            this.nudHours.Size = new System.Drawing.Size(565, 20);
-            this.nudHours.TabIndex = 22;
-            // 
-            // nudMinutes
-            // 
-            this.nudMinutes.Location = new System.Drawing.Point(106, 320);
-            this.nudMinutes.Maximum = new decimal(new int[] {
-            59,
-            0,
-            0,
-            0});
-            this.nudMinutes.Name = "nudMinutes";
-            this.nudMinutes.Size = new System.Drawing.Size(565, 20);
-            this.nudMinutes.TabIndex = 24;
-            // 
-            // lblMinutes
-            // 
-            this.lblMinutes.AutoSize = true;
-            this.lblMinutes.Location = new System.Drawing.Point(3, 321);
-            this.lblMinutes.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblMinutes.Name = "lblMinutes";
-            this.lblMinutes.Size = new System.Drawing.Size(47, 13);
-            this.lblMinutes.TabIndex = 23;
-            this.lblMinutes.Text = "Minutes:";
-            // 
-            // nudSeconds
-            // 
-            this.nudSeconds.Location = new System.Drawing.Point(106, 346);
-            this.nudSeconds.Maximum = new decimal(new int[] {
-            59,
-            0,
-            0,
-            0});
-            this.nudSeconds.Name = "nudSeconds";
-            this.nudSeconds.Size = new System.Drawing.Size(565, 20);
-            this.nudSeconds.TabIndex = 26;
-            // 
-            // lblSeconds
-            // 
-            this.lblSeconds.AutoSize = true;
-            this.lblSeconds.Location = new System.Drawing.Point(3, 347);
-            this.lblSeconds.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblSeconds.Name = "lblSeconds";
-            this.lblSeconds.Size = new System.Drawing.Size(52, 13);
-            this.lblSeconds.TabIndex = 25;
-            this.lblSeconds.Text = "Seconds:";
+            this.chkNotifyProgress.AutoSize = true;
+            this.chkNotifyProgress.Location = new System.Drawing.Point(5, 31);
+            this.chkNotifyProgress.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.chkNotifyProgress.Name = "chkNotifyProgress";
+            this.chkNotifyProgress.Size = new System.Drawing.Size(126, 21);
+            this.chkNotifyProgress.TabIndex = 5;
+            this.chkNotifyProgress.Text = "Notify progress";
+            this.chkNotifyProgress.UseVisualStyleBackColor = true;
             // 
             // FormTaskData
             // 
             this.AcceptButton = this.btnOk;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(698, 531);
+            this.ClientSize = new System.Drawing.Size(931, 654);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.tabTaskData);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "FormTaskData";
@@ -701,14 +698,14 @@
             this.tbpDetails.PerformLayout();
             this.tbpCommand.ResumeLayout(false);
             this.tbpCommand.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSeconds)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudMinutes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudHours)).EndInit();
             this.grpOtherUser.ResumeLayout(false);
             this.grpOtherUser.PerformLayout();
             this.tbpSchedule.ResumeLayout(false);
             this.tbpSchedule.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudWeeksBetween)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudHours)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudMinutes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudSeconds)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -762,5 +759,6 @@
         private System.Windows.Forms.Label lblSeconds;
         private System.Windows.Forms.NumericUpDown nudMinutes;
         private System.Windows.Forms.Label lblMinutes;
+        private System.Windows.Forms.CheckBox chkNotifyProgress;
     }
 }

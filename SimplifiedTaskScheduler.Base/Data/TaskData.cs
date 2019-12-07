@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿///using Newtonsoft.Json;
 using System;
 
 namespace SimplifiedTaskScheduler.Base.Data
@@ -7,6 +7,7 @@ namespace SimplifiedTaskScheduler.Base.Data
     {
         public string Id { get; set; } = "";
         public bool IsEnabled { get; set; } = true;
+        public bool NotifyProgressOutput { get; set; } = true;
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
         public DateTime? NextOccurence { get; set; } = DateTime.Now;

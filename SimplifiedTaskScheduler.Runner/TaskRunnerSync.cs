@@ -2,8 +2,6 @@
 using SimplifiedTaskScheduler.Base.Data;
 using SimplifiedTaskScheduler.Base.Events;
 using System;
-using System.Diagnostics;
-using System.Management;
 using System.Threading;
 
 namespace SimplifiedTaskScheduler.Runner
@@ -14,7 +12,7 @@ namespace SimplifiedTaskScheduler.Runner
     /// </summary>
     public class TaskRunnerSyncTaskRunnerSync : ITaskRunner, System.ComponentModel.ISynchronizeInvoke
     {
-        private TarkRunner  _runner = null;
+        private readonly TarkRunner  _runner;
 
         #region ITaskRunner
 
@@ -25,18 +23,22 @@ namespace SimplifiedTaskScheduler.Runner
         public event EventHandler<TaskDataReceivedEventArgs> ManagementDataReceived;
         public event EventHandler<TaskStatusChangedEventArgs> StatusChanged;
         public event EventHandler<TaskNotificationEventArgs> TaskNotification;
+
         public bool IsRunning()
         {
             return _runner.IsRunning();
         }
+
         public void Kill()
         {
             _runner.Kill();
         }
+
         public void Run()
         {
             _runner.Run();
         }
+
         public void CloseIdle()
         {
             _runner.CloseIdle();
@@ -47,6 +49,7 @@ namespace SimplifiedTaskScheduler.Runner
         private readonly SynchronizationContext _currentContext = SynchronizationContext.Current;
         private readonly Thread _mainThread = Thread.CurrentThread;
         private readonly object _invokeLocker = new object();
+
         public bool InvokeRequired
         {
             get
@@ -54,11 +57,12 @@ namespace SimplifiedTaskScheduler.Runner
                 return System.Threading.Thread.CurrentThread.ManagedThreadId != this._mainThread.ManagedThreadId;
             }
         }
+
         public object Invoke(Delegate method, object[] args)
         {
             if (method == null)
             {
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
             }
 
             lock (_invokeLocker)
@@ -66,25 +70,25 @@ namespace SimplifiedTaskScheduler.Runner
                 object objectToGet = null;
 
                 SendOrPostCallback invoker = new SendOrPostCallback(
-                delegate (object data)
-                {
-                    objectToGet = method.DynamicInvoke(args);
-                });
+                (object _) => objectToGet = method.DynamicInvoke(args));
 
                 _currentContext.Send(new SendOrPostCallback(invoker), method.Target);
 
                 return objectToGet;
             }
         }
+
         public object Invoke(Delegate method)
         {
             return Invoke(method, null);
         }
+
         [Obsolete("Not implemented!", true)]
         public IAsyncResult BeginInvoke(Delegate method, object[] args)
         {
             throw new NotSupportedException("Not implemented!");
         }
+
         [Obsolete("Not implemented!", true)]
         public object EndInvoke(IAsyncResult result)
         {
@@ -99,43 +103,48 @@ namespace SimplifiedTaskScheduler.Runner
         private delegate void FireErrorDataReceivedCallback(object sender, TaskDataReceivedEventArgs e);
         private delegate void FireExitedCallback(object sender, TaskExitedEventArgs e);
         private delegate void FireTaskNotificationCallback(object sender, TaskNotificationEventArgs e);
+
         public TaskRunnerSyncTaskRunnerSync(TaskData taskData)
         {
             _runner = new TarkRunner (taskData);
-            _runner.ErrorDataReceived += _runner_ErrorDataReceived;
-            _runner.Exited += _runner_Exited;
-            _runner.OutputDataReceived += _runner_OutputDataReceived;
-            _runner.ManagementDataReceived += _runner_ManagementDataReceived;
-            _runner.StatusChanged += _runner_StatusChanged;
-            _runner.TaskNotification += _runner_TaskNotification;
+            _runner.ErrorDataReceived += Runner_ErrorDataReceived;
+            _runner.Exited += Runner_Exited;
+            _runner.OutputDataReceived += Runner_OutputDataReceived;
+            _runner.ManagementDataReceived += Runner_ManagementDataReceived;
+            _runner.StatusChanged += Runner_StatusChanged;
+            _runner.TaskNotification += Runner_TaskNotification;
         }
 
-        private void _runner_ManagementDataReceived(object sender, TaskDataReceivedEventArgs e)
+        private void Runner_ManagementDataReceived(object sender, TaskDataReceivedEventArgs e)
         {
             FireManagementDataReceived(sender, e);
         }
 
-        private void _runner_TaskNotification(object sender, TaskNotificationEventArgs e)
+        private void Runner_TaskNotification(object sender, TaskNotificationEventArgs e)
         {
             FireTaskNotification(sender, e);
         }
 
-        private void _runner_StatusChanged(object sender, TaskStatusChangedEventArgs e)
+        private void Runner_StatusChanged(object sender, TaskStatusChangedEventArgs e)
         {
             FireStatusChanged(sender, e);
         }
-        private void _runner_OutputDataReceived(object sender, TaskDataReceivedEventArgs e)
+
+        private void Runner_OutputDataReceived(object sender, TaskDataReceivedEventArgs e)
         {
             FireOutputDataReceived(sender, e);
         }
-        private void _runner_Exited(object sender, TaskExitedEventArgs e)
+
+        private void Runner_Exited(object sender, TaskExitedEventArgs e)
         {
             FireExited(sender, e);
         }
-        private void _runner_ErrorDataReceived(object sender, TaskDataReceivedEventArgs e)
+
+        private void Runner_ErrorDataReceived(object sender, TaskDataReceivedEventArgs e)
         {
             FireErrorDataReceived(sender, e);
         }
+
         private void FireStatusChanged(object sender, TaskStatusChangedEventArgs e)
         {
             if (InvokeRequired)
@@ -148,6 +157,7 @@ namespace SimplifiedTaskScheduler.Runner
                 StatusChanged?.Invoke(sender, e);
             }
         }
+
         private void FireOutputDataReceived(object sender, TaskDataReceivedEventArgs e)
         {
             if (InvokeRequired)
@@ -160,6 +170,7 @@ namespace SimplifiedTaskScheduler.Runner
                 OutputDataReceived?.Invoke(sender, e);
             }
         }
+
         private void FireManagementDataReceived(object sender, TaskDataReceivedEventArgs e)
         {
             if (InvokeRequired)
@@ -172,6 +183,7 @@ namespace SimplifiedTaskScheduler.Runner
                 ManagementDataReceived?.Invoke(sender, e);
             }
         }
+
         private void FireErrorDataReceived(object sender, TaskDataReceivedEventArgs e)
         {
             if (InvokeRequired)
@@ -184,6 +196,7 @@ namespace SimplifiedTaskScheduler.Runner
                 ErrorDataReceived?.Invoke(sender, e);
             }
         }
+
         private void FireExited(object sender, TaskExitedEventArgs e)
         {
             if (InvokeRequired)
@@ -196,6 +209,7 @@ namespace SimplifiedTaskScheduler.Runner
                 Exited?.Invoke(sender, e);
             }
         }
+
         private void FireTaskNotification(object sender, TaskNotificationEventArgs e)
         {
             if (InvokeRequired)
@@ -209,6 +223,5 @@ namespace SimplifiedTaskScheduler.Runner
             }
         }
         #endregion
-
     }
 }

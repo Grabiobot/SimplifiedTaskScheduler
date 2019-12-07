@@ -3,11 +3,8 @@ using SimplifiedTaskScheduler.Base.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SimplifiedTaskScheduler.GUI
@@ -20,6 +17,7 @@ namespace SimplifiedTaskScheduler.GUI
         private delegate void ExitedCallback(int exitCode, string text, string taskId);
         private delegate void AppendTextCallback(string text, string taskId);
         private bool _listViewChangedProgramatically = false;
+
          public FormTasksList()
         {
             InitializeComponent();
@@ -30,12 +28,15 @@ namespace SimplifiedTaskScheduler.GUI
         {
             tvwFolders.Left = 0;
             tvwFolders.Top = 0;
-            tvwFolders.Width = splitTreeList.Panel1.ClientRectangle.Width - tvwFolders.Left * 2;
-            tvwFolders.Height = splitTreeList.Panel1.ClientRectangle.Height - tvwFolders.Top * 2;
+            tvwFolders.Width = splitTreeList.Panel1.ClientRectangle.Width - (tvwFolders.Left * 2);
+            tvwFolders.Height = splitTreeList.Panel1.ClientRectangle.Height - (tvwFolders.Top * 2);
         }
+
         private void SplitTreeList_Panel2_Resize(object sender, EventArgs e)
         {
+            // nothing for now
         }
+
         private void FormTasksList_Load(object sender, EventArgs e)
         {
             this.SetAppIcon();
@@ -61,21 +62,23 @@ namespace SimplifiedTaskScheduler.GUI
             string version = fvi.FileVersion;
             this.Text += " v." + version;
         }
+
         private void SplitListDetail_Panel1_Resize(object sender, EventArgs e)
         {
             lstTasks.Left = 0;
             lstTasks.Top = 0;
-            lstTasks.Width = splitListDetail.Panel1.ClientRectangle.Width - lstTasks.Left * 2;
-            lstTasks.Height = splitListDetail.Panel1.ClientRectangle.Height - lstTasks.Top * 2;
-
+            lstTasks.Width = splitListDetail.Panel1.ClientRectangle.Width - (lstTasks.Left * 2);
+            lstTasks.Height = splitListDetail.Panel1.ClientRectangle.Height - (lstTasks.Top * 2);
         }
+
         private void SplitListDetail_Panel2_Resize(object sender, EventArgs e)
         {
             tabTask.Left = 0;
             tabTask.Top = 0;
-            tabTask.Width = splitListDetail.Panel2.ClientRectangle.Width - tabTask.Left * 2;
-            tabTask.Height = splitListDetail.Panel2.ClientRectangle.Height - tabTask.Top * 2;
+            tabTask.Width = splitListDetail.Panel2.ClientRectangle.Width - (tabTask.Left * 2);
+            tabTask.Height = splitListDetail.Panel2.ClientRectangle.Height - (tabTask.Top * 2);
         }
+
         private void AutoSizeColumnList(ListView listView)
         {
             //Prevents flickering
@@ -96,16 +99,19 @@ namespace SimplifiedTaskScheduler.GUI
             //Grab comumn size based on data and set max width
             foreach (ColumnHeader colHeader in listView.Columns)
             {
-                int nColWidth;
-                if (columnSize.TryGetValue(colHeader.Index, out nColWidth))
+                if (columnSize.TryGetValue(colHeader.Index, out int nColWidth))
+                {
                     colHeader.Width = Math.Max(nColWidth, colHeader.Width);
+                }
                 else
+                {
                     //Default to 50
                     colHeader.Width = Math.Max(50, colHeader.Width);
+                }
             }
-
             listView.EndUpdate();
         }
+
         private void MnuTasks_Opening(object sender, CancelEventArgs e)
         {
             mnuTasksDelete.Enabled = _taskData != null;
@@ -118,30 +124,36 @@ namespace SimplifiedTaskScheduler.GUI
             mnuTasksStop.Enabled = _taskData != null;
             mnuTasksAddNew.Enabled = _taskFolder != null;
         }
+
         private void MnuFolders_Opening(object sender, CancelEventArgs e)
         {
             mnuFoldersDelete.Enabled = _taskFolder != null;
             mnuFoldersRename.Enabled = _taskFolder != null;
             mnuFoldersAdd.Enabled = _taskFolder != null;
         }
+
         private void LstTasks_Resize(object sender, EventArgs e)
         {
             AutoSizeColumnList(lstTasks);
         }
+
         private void TaskData_Exited(object sender, Base.Events.TaskExitedEventArgs e)
         {
             OnExited(e.ExitCode, e.Data, e.TaskId);
             Controller.Instance.SaveData("");
         }
+
         private void TaskData_OutputDataReceived(object sender, Base.Events.TaskDataReceivedEventArgs e)
         {
             AppendText(e.Data, e.TaskId);
         }
+
         private void TvwFolders_MouseDown(object sender, MouseEventArgs e)
         {
             var node = tvwFolders.GetNodeAt(e.X, e.Y);
             OnTaskFolderNoteSelected(node);
         }
+
         private void LstTasks_SelectedIndexChanged(object sender, EventArgs e)
         {
             OnTaskItemSelected();
@@ -155,7 +167,6 @@ namespace SimplifiedTaskScheduler.GUI
             // If these threads are different, it returns true.
             if (this.txtOutput.InvokeRequired)
             {
-                //if (GetWantsToStop()) return;
                 AppendTextCallback d = new AppendTextCallback(AppendText);
                 this?.Invoke(d, new object[] { text, taskId });
             }
@@ -166,6 +177,7 @@ namespace SimplifiedTaskScheduler.GUI
                 txtOutput.AppendText(text);
             }
         }
+
         private void OnExited(int exitCode, string text, string taskId)
         {
             if (this.lstTasks.InvokeRequired)
@@ -180,6 +192,7 @@ namespace SimplifiedTaskScheduler.GUI
                 txtOutput.AppendText(text);
             }
         }
+
         private void UpdateTaskDisplay(string taskId)
         {
             if (this.lstTasks.InvokeRequired)
@@ -202,6 +215,7 @@ namespace SimplifiedTaskScheduler.GUI
                 ShowDetailsForTask();
             }
         }
+
         private void OnTaskFolderNoteSelected(TreeNode node)
         {
             tvwFolders.SelectedNode = node;
@@ -215,6 +229,7 @@ namespace SimplifiedTaskScheduler.GUI
                 return;
             }
             string id = tvwFolders.SelectedNode.Name;
+            SettingsManager.CurrentSettings.ActiveFolder = id;
             if (id != _taskFolder?.Id)
             {
                 TaskFolder folder = FindClickedFolder(id);
@@ -236,18 +251,48 @@ namespace SimplifiedTaskScheduler.GUI
                 OnTaskItemSelected();
             }
         }
+
         private string GetNextOccurenceText(TaskData taskData) {
             return taskData.NextOccurence?.ToShortDateString() + " " + taskData.NextOccurence?.ToShortTimeString();
         }
+
         private string GetLastRunText(TaskData taskData)
         {
             return taskData.DebugData.DateStarted?.ToShortDateString() + " " + taskData.DebugData.DateStarted?.ToShortTimeString();
         }
+
         private void CreateUIFolders()
         {
             CreateUIFolders(Accessor.Instance.Tasks, null);
             tvwFolders.ExpandAll();
+            if (tvwFolders.Nodes?.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(SettingsManager.CurrentSettings.ActiveFolder))
+                {
+                    TreeView myTree = tvwFolders;
+
+                    var allNodes = myTree.Nodes
+                        .Cast<TreeNode>()
+                        .SelectMany(GetNodeBranch);
+
+                    foreach (var treeNode in allNodes)
+                    {
+                        if (treeNode.Name == SettingsManager.CurrentSettings.ActiveFolder)
+                        {
+                            tvwFolders.SelectedNode = treeNode;
+                            OnTaskFolderNoteSelected(treeNode);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    var node = tvwFolders.Nodes[0];
+                    OnTaskFolderNoteSelected(node);
+                }
+            }
         }
+
         private void CreateUIFolders(TaskFolder folder, TreeNode parent)
         {
             TreeNode child;
@@ -260,9 +305,24 @@ namespace SimplifiedTaskScheduler.GUI
                 CreateUIFolders(folder.SubFolders[i], child);
             }
         }
+
+        private IEnumerable<TreeNode> GetNodeBranch(TreeNode node)
+        {
+            yield return node;
+
+            foreach (TreeNode child in node.Nodes)
+            {
+                foreach (TreeNode childChild in GetNodeBranch(child))
+                {
+                    yield return childChild;
+                }
+            }
+        }
+
         private TaskFolder FindClickedFolder(string id) {
             return Controller.Instance.GetFolderById(id);
         }
+
         private TaskData FindClickedTask(string id)
         {
             return Controller.Instance.GetTaskBeId(id);
@@ -272,24 +332,23 @@ namespace SimplifiedTaskScheduler.GUI
         {
             taskData.DebugData.Runner.Run();
             UpdateTaskDisplay(taskData.Id);
-            //UpdateDisplayedTaskStatus();
             tabTask.SelectedTab = tbpOutput;
         }
+
         private void KillTaskNow(TaskData taskData)
         {
             taskData.DebugData.Runner.Kill();
-            //UpdateDisplayedTaskStatus();
         }
+
         private void OnTaskItemSelected()
         {
-
             if (_listViewChangedProgramatically)
             {
                 _taskData.DebugData.Runner.OutputDataReceived -= TaskData_OutputDataReceived;
                 _taskData.DebugData.Runner.ErrorDataReceived -= TaskData_OutputDataReceived;
                 _taskData.DebugData.Runner.Exited -= TaskData_Exited;
                 _taskData.DebugData.Runner.StatusChanged -= Runner_StatusChanged;
-                _taskData.DebugData.Runner.TaskNotification -= Runner_TaskNotification; ;
+                _taskData.DebugData.Runner.TaskNotification -= Runner_TaskNotification;
                 _taskData.DebugData.Runner.ManagementDataReceived -= Runner_ManagementDataReceived;
                 _taskData = null;
                 ShowDetailsForNoTask();
@@ -303,7 +362,7 @@ namespace SimplifiedTaskScheduler.GUI
                     _taskData.DebugData.Runner.ErrorDataReceived -= TaskData_OutputDataReceived;
                     _taskData.DebugData.Runner.Exited -= TaskData_Exited;
                     _taskData.DebugData.Runner.StatusChanged -= Runner_StatusChanged;
-                    _taskData.DebugData.Runner.TaskNotification -= Runner_TaskNotification; ;
+                    _taskData.DebugData.Runner.TaskNotification -= Runner_TaskNotification;
                     _taskData.DebugData.Runner.ManagementDataReceived -= Runner_ManagementDataReceived;
                     _taskData = null;
                     ShowDetailsForNoTask();
@@ -317,7 +376,7 @@ namespace SimplifiedTaskScheduler.GUI
                 _taskData.DebugData.Runner.ErrorDataReceived -= TaskData_OutputDataReceived;
                 _taskData.DebugData.Runner.Exited -= TaskData_Exited;
                 _taskData.DebugData.Runner.StatusChanged -= Runner_StatusChanged;
-                _taskData.DebugData.Runner.TaskNotification -= Runner_TaskNotification; ;
+                _taskData.DebugData.Runner.TaskNotification -= Runner_TaskNotification;
                 _taskData.DebugData.Runner.ManagementDataReceived -= Runner_ManagementDataReceived;
                 _taskData = null;
                 ShowDetailsForNoTask();
@@ -329,7 +388,7 @@ namespace SimplifiedTaskScheduler.GUI
             _taskData.DebugData.Runner.ErrorDataReceived += TaskData_OutputDataReceived;
             _taskData.DebugData.Runner.Exited += TaskData_Exited;
             _taskData.DebugData.Runner.StatusChanged += Runner_StatusChanged;
-            _taskData.DebugData.Runner.TaskNotification += Runner_TaskNotification; ;
+            _taskData.DebugData.Runner.TaskNotification += Runner_TaskNotification;
             _taskData.DebugData.Runner.ManagementDataReceived += Runner_ManagementDataReceived;
         }
 
@@ -340,21 +399,25 @@ namespace SimplifiedTaskScheduler.GUI
 
         private void Runner_TaskNotification(object sender, Base.Events.TaskNotificationEventArgs e)
         {
+            // nothing for now
         }
 
         private void Runner_StatusChanged(object sender, Base.Events.TaskStatusChangedEventArgs e)
         {
             UpdateTaskDisplay(e.TaskId);
         }
+
         private void ShowDetailsForNoTask() {
             txtOutput.Text = "";
             txtDetails.Text = "";
         }
+
         private void ShowDetailsForTask()
         {
             txtOutput.Text = _taskData.DebugData.Output;
             txtDetails.Text = _taskData.Description;
         }
+
         private void MnuTasksRun_Click(object sender, EventArgs e)
         {
             string id = (string)(lstTasks.SelectedItems[0].Tag);
@@ -368,6 +431,7 @@ namespace SimplifiedTaskScheduler.GUI
                 RunTaskNow(taskData);
             }
         }
+
         private void MnuTasksStop_Click(object sender, EventArgs e)
         {
             string id = (string)(lstTasks.SelectedItems[0].Tag);
@@ -380,10 +444,9 @@ namespace SimplifiedTaskScheduler.GUI
             else
             {
                 MessageBox.Show("Selected task is not currently running! ", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                //KillTaskNow(taskData);
-                //Controller.Instance.SaveData("");
             }
         }
+
         private void MnuTasksToggleEnabled_Click(object sender, EventArgs e)
         {
             string id = (string)(lstTasks.SelectedItems[0].Tag);
@@ -391,16 +454,17 @@ namespace SimplifiedTaskScheduler.GUI
             taskData.IsEnabled = !taskData.IsEnabled;
             UpdateTaskDisplay(id);
         }
+
         private void MnuTasksDelete_Click(object sender, EventArgs e)
         {
             DialogResult dr = MessageBox.Show("Are you sure you want to delete this task?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dr != DialogResult.Yes) return;
             string taskId = (string)(lstTasks.SelectedItems[0].Tag);
-            string folderId = (string)(tvwFolders.SelectedNode.Name);
+            string folderId = tvwFolders.SelectedNode.Name;
             Controller.Instance.DeleteTask(taskId, folderId);
             lstTasks.Items.Remove(lstTasks.SelectedItems[0]);
-            //OnTaskFolderNoteSelected
         }
+
         private void MnuFoldersDelete_Click(object sender, EventArgs e)
         {
             var node = tvwFolders.SelectedNode;
@@ -412,7 +476,7 @@ namespace SimplifiedTaskScheduler.GUI
             }
             DialogResult dr = MessageBox.Show("Are you sure you want to delete this folder and all contained tasks?", "WARNING", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (dr != DialogResult.Yes) return;
-            string folderId = (string)(node.Name);
+            string folderId = node.Name;
             string parentFolderId = parentNode.Name;
             Controller.Instance.DeleteFolder(folderId, parentFolderId);
             parentNode.Nodes.Remove(node);
@@ -422,9 +486,10 @@ namespace SimplifiedTaskScheduler.GUI
 
         private void MnuFoldersRename_Click(object sender, EventArgs e)
         {
-            FormTaskFolder frm = new FormTaskFolder();
-            string folderId = (string)(tvwFolders.SelectedNode.Name);
-            frm.FolderName = _taskFolder.Name;
+            FormTaskFolder frm = new FormTaskFolder
+            {
+                FolderName = _taskFolder.Name
+            };
             DialogResult dr = frm.ShowDialog(this);
             if (dr != DialogResult.OK) return;
             _taskFolder.Name = frm.FolderName;
@@ -435,8 +500,10 @@ namespace SimplifiedTaskScheduler.GUI
         {
             var parentNode = tvwFolders.SelectedNode;
             if (parentNode == null) return;
-            FormTaskFolder frm = new FormTaskFolder();
-            frm.FolderName = "";
+            FormTaskFolder frm = new FormTaskFolder
+            {
+                FolderName = ""
+            };
             DialogResult dr = frm.ShowDialog(this);
             if (dr != DialogResult.OK) return;
             string folderName = frm.FolderName;
@@ -448,27 +515,26 @@ namespace SimplifiedTaskScheduler.GUI
 
         private void MnuTasksEdit_Click(object sender, EventArgs e)
         {
-            FormTaskData frm = new FormTaskData();
-            frm.TaskData = _taskData;
+            FormTaskData frm = new FormTaskData
+            {
+                TaskData = _taskData
+            };
             DialogResult dr = frm.ShowDialog(this);
             if (dr != DialogResult.OK) return;
             UpdateTaskDisplay(_taskData.Id);
-            //_taskFolder.Name = frm.FolderName;
-            //tvwFolders.SelectedNode.Text = _taskFolder.Name;
         }
 
         private void MnuTasksAddNew_Click(object sender, EventArgs e)
         {
-            FormTaskData frm = new FormTaskData();
-            frm.TaskData = Controller.Instance.CreateNewTask();
+            FormTaskData frm = new FormTaskData
+            {
+                TaskData = Controller.CreateNewTask()
+            };
             DialogResult dr = frm.ShowDialog(this);
             if (dr != DialogResult.OK) return;
-            //_taskFolder.Tasks.Add(frm.TaskData);
             Controller.Instance.AddChildTask(_taskFolder.Id, frm.TaskData);
 
-
             TaskFolder folder = _taskFolder;
-            string id = _taskFolder.Id;
             _listViewChangedProgramatically = true;
             lstTasks.Items.Clear();
             for (int i = 0; i < folder.Tasks.Count; i++)
@@ -490,12 +556,11 @@ namespace SimplifiedTaskScheduler.GUI
         {
             if (_taskData != null)
             {
-                //SetWantsToStop();
                 _taskData.DebugData.Runner.OutputDataReceived -= TaskData_OutputDataReceived;
                 _taskData.DebugData.Runner.ErrorDataReceived -= TaskData_OutputDataReceived;
                 _taskData.DebugData.Runner.Exited -= TaskData_Exited;
                 _taskData.DebugData.Runner.StatusChanged -= Runner_StatusChanged;
-                _taskData.DebugData.Runner.TaskNotification -= Runner_TaskNotification; ;
+                _taskData.DebugData.Runner.TaskNotification -= Runner_TaskNotification;
                 _taskData.DebugData.Runner.ManagementDataReceived -= Runner_ManagementDataReceived;
                 _taskData = null;
             }

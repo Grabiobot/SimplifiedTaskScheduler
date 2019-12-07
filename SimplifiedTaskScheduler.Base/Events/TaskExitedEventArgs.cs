@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SimplifiedTaskScheduler.Base.Events
 {
@@ -12,5 +10,4 @@ namespace SimplifiedTaskScheduler.Base.Events
         public string Data { get; set; } = "";
         public string TaskId { get; set; } = "";
     }
-
 }

@@ -1,23 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SimplifiedTaskScheduler.Base
+﻿namespace SimplifiedTaskScheduler.Base
 {
-    public class Accessor
+    public sealed class Accessor
     {
-        private static Accessor _intance;
-        public static Accessor Instance
-        {
-            get
-            {
-                if (_intance == null) _intance = new Accessor();
-                return _intance;
-            }
-        }
+        public static Accessor Instance { get; } = new Accessor();
+
         private Accessor()
         {
         }
+
         public Data.TaskFolder Tasks { get; set; }
     }
 }

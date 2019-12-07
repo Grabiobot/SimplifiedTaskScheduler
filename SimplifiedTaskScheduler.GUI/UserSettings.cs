@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace SimplifiedTaskScheduler.GUI
 {
     public class UserSettings
     {
-        public bool StartWithWindows;
-        public bool ShowProgressNotifications;
-        public bool KeepNotificationsOnTop;
+        public bool StartWithWindows { get;set;}
+        public bool ShowProgressNotifications { get; set; }
+        public bool KeepNotificationsOnTop { get; set; }
+        public string ActiveFolder { get; set; }
     }
 }

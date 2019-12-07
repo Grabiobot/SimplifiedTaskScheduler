@@ -4,27 +4,21 @@ using System.Collections.Generic;
 
 namespace SimplifiedTaskScheduler.Scheduler
 {
-    public class TasksScheduler
+    public sealed class TasksScheduler
     {
         #region Singleton
-        private static TasksScheduler _intance;
-        public static TasksScheduler Instance
-        {
-            get
-            {
-                if (_intance == null) _intance = new TasksScheduler();
-                return _intance;
-            }
-        }
+        public static TasksScheduler Instance { get; } = new TasksScheduler();
+
         private TasksScheduler()
         {
         }
         #endregion
-        List<TaskData> _tasks = new List<TaskData>();
+
+        private List<TaskData> _tasks = new List<TaskData>();
+
         public void ReBuildQueue(TaskFolder taskFolder)
         {
             List<TaskData>  tasks = AddTasksToList(taskFolder);
-            //tasks.Sort((x, y) => x.NextOccurence.CompareTo(y.NextOccurence));
             tasks.Sort((x, y) =>
             {
                 if (!x.NextOccurence.HasValue)
@@ -35,20 +29,19 @@ namespace SimplifiedTaskScheduler.Scheduler
                 else
                 {
                     if (!y.NextOccurence.HasValue) return 1; // x is greater
-                    //if (x == y) return 0; // equal
-                    //if (x < y) return -1; // y is greater
-                    //else return 1;
                     return ((DateTime)x.NextOccurence).CompareTo(y.NextOccurence);
                 }
             });
             _tasks = tasks;
         }
+
         private List<TaskData> AddTasksToList(TaskFolder folder)
         {
             List<TaskData> tasks = new List<TaskData>();
             AddTasksToList(folder, tasks);
             return tasks;
         }
+
         private void AddTasksToList(TaskFolder folder, List<TaskData> list)
         {
             TaskData taskData;
@@ -63,14 +56,15 @@ namespace SimplifiedTaskScheduler.Scheduler
                 AddTasksToList(folder.SubFolders[i], list);
             }
         }
+
         private bool ValidateTask(TaskData taskData) {
             if (!taskData.IsEnabled) return false;
             if (taskData.SchedulingData.StartDateTime > DateTime.Now) return false;
             if (taskData.SchedulingData.ExpiryDateTime < DateTime.Now) return false;
             taskData.NextOccurence = CalculateNextOccurence(taskData);
-            if (taskData.NextOccurence == null) return false;
-            return true;
+            return taskData.NextOccurence != null;
         }
+
         public void RunNext() {
             var now = DateTime.Now;
             for (int i = 0; i < _tasks.Count; i++)
@@ -83,21 +77,23 @@ namespace SimplifiedTaskScheduler.Scheduler
                 _tasks[i].DebugData.Runner.Run();
             }
         }
+
         public void Cleanup(TaskFolder taskFolder)
         {
             List<TaskData> tasks = AddTasksToCleanupList(taskFolder);
-            //TimeSpan timeSpan = new TimeSpan(0, 0, 5);
             for (int i = 0; i < tasks.Count; i++)
             {
                 tasks[i].DebugData.Runner.CloseIdle();
             }
         }
+
         private List<TaskData> AddTasksToCleanupList(TaskFolder folder)
         {
             List<TaskData> tasks = new List<TaskData>();
             AddTasksToCleanupList(folder, tasks);
             return tasks;
         }
+
         private void AddTasksToCleanupList(TaskFolder folder, List<TaskData> list)
         {
             TaskData taskData;
@@ -118,6 +114,7 @@ namespace SimplifiedTaskScheduler.Scheduler
             if (result==null || result > taskData.SchedulingData.ExpiryDateTime) return null;
             return result;
         }
+
         private DateTime? CalculateNextOccurence_ByType(TaskData taskData)
         {
             switch (taskData.SchedulingData.ScheduleType)
@@ -131,18 +128,20 @@ namespace SimplifiedTaskScheduler.Scheduler
                 default:
                     throw new NotImplementedException();
             }
-            return null;
         }
+
         private DateTime? CalculateNextOccurence_RunOnce(TaskData taskData)
         {
             if (taskData.LastRun != null) return null;
             return taskData.SchedulingData.StartDateTime;
         }
+
         private DateTime? CalculateNextOccurence_OnceEveryFewDays(TaskData taskData)
         {
             if (taskData.LastRun == null) return taskData.SchedulingData.StartDateTime;
             else return taskData.LastRun?.AddDays(taskData.SchedulingData.DaysBetweenRepetitions);
         }
+
         private DateTime? CalculateNextOccurence_WeeklyBase(TaskData taskData)
         {
             DateTime now = DateTime.Now;
@@ -159,18 +158,13 @@ namespace SimplifiedTaskScheduler.Scheduler
             {
                 if (IsSameWeekDay(option.DayOfWeek, taskData.SchedulingData.WeeksDays)){
                     if (option <= taskData.LastRun) continue;
-                    //if (option < now && (taskData.LastRun != option))
-                    //{
-                    //    validOptions.Add(now);
-                    //}
-                    //else {
-                    //}
                     validOptions.Add(option);
                 }
             }
             if (validOptions.Count == 0) return null;
             return validOptions[0];
         }
+
         private bool IsSameWeekDay(DayOfWeek dayOfWeek, Base.Data.EWeekDay weekDay)
         {
             Base.Data.EWeekDay targetWeekDay;
@@ -198,7 +192,7 @@ namespace SimplifiedTaskScheduler.Scheduler
                     targetWeekDay = EWeekDay.Wednesday;
                     break;
                 default:
-                    throw new NotImplementedException(); 
+                    throw new NotImplementedException();
             }
             bool result = (weekDay & targetWeekDay) == targetWeekDay;
             return result;

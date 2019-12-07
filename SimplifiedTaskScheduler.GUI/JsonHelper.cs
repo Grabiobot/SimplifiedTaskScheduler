@@ -1,32 +1,29 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SimplifiedTaskScheduler.GUI
 {
-    public class JsonHelper
+    public static class JsonHelper
     {
-        public static string SerializeObject(object dataObj)
-        {
-            JsonSerializerSettings settings = JsonHelper.GetSettings(false);
-            return JsonConvert.SerializeObject(dataObj, settings);
-        }
-
         private static JsonSerializerSettings GetSettings(bool indented = false)
         {
-            JsonSerializerSettings serializerSettings = new JsonSerializerSettings();
-            serializerSettings.NullValueHandling = NullValueHandling.Ignore;
-            serializerSettings.Formatting = JsonHelper.GetFormatting(indented);
-            //serializerSettings.Converters.Add((JsonConverter)new ColorConverter());
+            JsonSerializerSettings serializerSettings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                Formatting = JsonHelper.GetFormatting(indented)
+            };
             return serializerSettings;
         }
 
         private static Formatting GetFormatting(bool indented = false)
         {
             return !indented ? Formatting.None : Formatting.Indented;
+        }
+
+        public static string SerializeObject(object dataObj)
+        {
+            JsonSerializerSettings settings = JsonHelper.GetSettings(false);
+            return JsonConvert.SerializeObject(dataObj, settings);
         }
 
         public static string SerializeObject(object dataObj, bool indented)
@@ -53,5 +50,4 @@ namespace SimplifiedTaskScheduler.GUI
             return JsonConvert.DeserializeObject(jsonData, type, settings);
         }
     }
-
 }

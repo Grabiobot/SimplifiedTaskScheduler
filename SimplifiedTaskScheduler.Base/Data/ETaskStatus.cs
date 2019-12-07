@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace SimplifiedTaskScheduler.Base.Data
 {
     public enum ETaskStatus
