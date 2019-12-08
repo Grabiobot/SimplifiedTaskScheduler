@@ -47,9 +47,7 @@ namespace SimplifiedTaskScheduler.GUI
             string product = fvi.ProductName;
             string title = product + " v." + version;
             _canOpenNewListForm = false;
-            //Form form = new Form();
-            //form.SetAppIcon();
-            //form.Hide();
+
             DialogResult dr = MessageBox.Show(@"Are you sure that you want to quit?
 
 The application can execute scheduled tasks only while running!
