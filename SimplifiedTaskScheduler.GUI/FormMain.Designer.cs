@@ -37,19 +37,20 @@
             this.mnuIconSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuIconExit = new System.Windows.Forms.ToolStripMenuItem();
             this.timerTick = new System.Windows.Forms.Timer(this.components);
+            this.timerEnabled = new System.Windows.Forms.Timer(this.components);
             this.mnuIcon.SuspendLayout();
             this.SuspendLayout();
-            //
+            // 
             // notifyIcon1
-            //
+            // 
             this.notifyIcon1.ContextMenuStrip = this.mnuIcon;
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
             this.notifyIcon1.Text = "notifyIcon1";
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.DoubleClick += new System.EventHandler(this.NotifyIcon1_DoubleClick);
-            //
+            // 
             // mnuIcon
-            //
+            // 
             this.mnuIcon.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.mnuIcon.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuIconManageTasks,
@@ -57,42 +58,46 @@
             this.mnuIconSeparator1,
             this.mnuIconExit});
             this.mnuIcon.Name = "mnuIcon";
-            this.mnuIcon.Size = new System.Drawing.Size(211, 110);
-            //
+            this.mnuIcon.Size = new System.Drawing.Size(169, 82);
+            // 
             // mnuIconManageTasks
-            //
+            // 
             this.mnuIconManageTasks.Name = "mnuIconManageTasks";
-            this.mnuIconManageTasks.Size = new System.Drawing.Size(210, 24);
+            this.mnuIconManageTasks.Size = new System.Drawing.Size(168, 24);
             this.mnuIconManageTasks.Text = "Manage tasks";
             this.mnuIconManageTasks.Click += new System.EventHandler(this.MnuIconManageTasks_Click);
-            //
+            // 
             // mnuIconSettings
-            //
+            // 
             this.mnuIconSettings.Name = "mnuIconSettings";
-            this.mnuIconSettings.Size = new System.Drawing.Size(210, 24);
+            this.mnuIconSettings.Size = new System.Drawing.Size(168, 24);
             this.mnuIconSettings.Text = "Settings";
             this.mnuIconSettings.Click += new System.EventHandler(this.MnuIconSettings_Click);
-            //
+            // 
             // mnuIconSeparator1
-            //
+            // 
             this.mnuIconSeparator1.Name = "mnuIconSeparator1";
-            this.mnuIconSeparator1.Size = new System.Drawing.Size(207, 6);
-            //
+            this.mnuIconSeparator1.Size = new System.Drawing.Size(165, 6);
+            // 
             // mnuIconExit
-            //
+            // 
             this.mnuIconExit.Name = "mnuIconExit";
-            this.mnuIconExit.Size = new System.Drawing.Size(210, 24);
+            this.mnuIconExit.Size = new System.Drawing.Size(168, 24);
             this.mnuIconExit.Text = "Exit";
             this.mnuIconExit.Click += new System.EventHandler(this.MnuIconExit_Click);
-            //
+            // 
             // timerTick
-            //
-            this.timerTick.Enabled = true;
+            // 
             this.timerTick.Interval = 10000;
             this.timerTick.Tick += new System.EventHandler(this.TimerTick_Tick);
-            //
+            // 
+            // timerEnabled
+            // 
+            this.timerEnabled.Interval = 1000;
+            this.timerEnabled.Tick += new System.EventHandler(this.TimerEnabled_Tick);
+            // 
             // FormMain
-            //
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(300, 300);
@@ -120,5 +125,6 @@
         private System.Windows.Forms.Timer timerTick;
         private System.Windows.Forms.ToolStripMenuItem mnuIconSettings;
         private System.Windows.Forms.ToolStripSeparator mnuIconSeparator1;
+        private System.Windows.Forms.Timer timerEnabled;
     }
 }
