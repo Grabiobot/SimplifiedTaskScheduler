@@ -12,6 +12,7 @@ namespace SimplifiedTaskScheduler.GUI
             Properties.Settings.Default.ShowProgressNotifications = settings.ShowProgressNotifications;
             Properties.Settings.Default.KeepNotificationsOnTop = settings.KeepNotificationsOnTop;
             Properties.Settings.Default.ActiveFolder = settings.ActiveFolder;
+            Properties.Settings.Default.DelayedStartOfTasks = settings.DelayedStartOfTasks;
             Properties.Settings.Default.Save();
         }
 
@@ -23,7 +24,8 @@ namespace SimplifiedTaskScheduler.GUI
                 StartWithWindows = Properties.Settings.Default.StartWithWindows,
                 ShowProgressNotifications = Properties.Settings.Default.ShowProgressNotifications,
                 KeepNotificationsOnTop = Properties.Settings.Default.KeepNotificationsOnTop,
-                ActiveFolder = Properties.Settings.Default.ActiveFolder
+                ActiveFolder = Properties.Settings.Default.ActiveFolder,
+                DelayedStartOfTasks = Properties.Settings.Default.DelayedStartOfTasks
             };
 
             return settings;

@@ -16,6 +16,7 @@ namespace SimplifiedTaskScheduler.GUI
 
         private void FormMain_Load(object sender, EventArgs e)
         {
+            this.SetAppIcon();
             timerEnabled.Enabled = true;
             timerTick.Enabled = false;
             mnuIconManageTasks.Font = new System.Drawing.Font(mnuIconManageTasks.Font, System.Drawing.FontStyle.Bold);
@@ -46,11 +47,14 @@ namespace SimplifiedTaskScheduler.GUI
             string product = fvi.ProductName;
             string title = product + " v." + version;
             _canOpenNewListForm = false;
+            //Form form = new Form();
+            //form.SetAppIcon();
+            //form.Hide();
             DialogResult dr = MessageBox.Show(@"Are you sure that you want to quit?
 
 The application can execute scheduled tasks only while running!
 Quitting it will prevent scheduled tasks to be executed until you start it again.
-", title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+", title, MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
             _canOpenNewListForm = true;
             _canOpenNewCloseMessage = true;
             if (dr != DialogResult.Yes) return;
@@ -101,16 +105,15 @@ Quitting it will prevent scheduled tasks to be executed until you start it again
             frm.ShowDialog(this);
         }
 
-        private readonly int _delayStart_Ticks = 1 * 60;
         private int _delauyedTicks = 0;
 
         private void TimerEnabled_Tick(object sender, EventArgs e)
         {
             _delauyedTicks++;
-            if (_delauyedTicks >= _delayStart_Ticks) {
+            if (_delauyedTicks >= SettingsManager.CurrentSettings.DelayedStartOfTasks) {
                 timerEnabled.Enabled = false;
                 timerTick.Enabled = true;
-                _delauyedTicks = _delayStart_Ticks;
+                _delauyedTicks = SettingsManager.CurrentSettings.DelayedStartOfTasks;
             }
         }
     }

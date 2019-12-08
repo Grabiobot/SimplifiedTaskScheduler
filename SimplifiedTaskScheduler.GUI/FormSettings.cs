@@ -21,6 +21,7 @@ namespace SimplifiedTaskScheduler.GUI
             chkStartWithWindows.Checked = SettingsManager.CurrentSettings.StartWithWindows;
             chkShowProgressNotifications.Checked = SettingsManager.CurrentSettings.ShowProgressNotifications;
             chkKeepNotificationsOnTop.Checked = SettingsManager.CurrentSettings.KeepNotificationsOnTop;
+            nudDelayedStartOfTasks.Value = SettingsManager.CurrentSettings.DelayedStartOfTasks;
         }
 
         private void BtnOk_Click(object sender, EventArgs e)
@@ -28,6 +29,7 @@ namespace SimplifiedTaskScheduler.GUI
             SettingsManager.CurrentSettings.StartWithWindows = chkStartWithWindows.Checked;
             SettingsManager.CurrentSettings.ShowProgressNotifications = chkShowProgressNotifications.Checked;
             SettingsManager.CurrentSettings.KeepNotificationsOnTop = chkKeepNotificationsOnTop.Checked;
+            SettingsManager.CurrentSettings.DelayedStartOfTasks = (int)nudDelayedStartOfTasks.Value;
             SettingsManager.ApplyStartWithWindows(SettingsManager.CurrentSettings.StartWithWindows);
         }
     }
